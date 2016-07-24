@@ -1,0 +1,4 @@
+Shit I had issues with:
+-----------------------
+1. couldn't find glfw3.dll (when I added in glfwinit, program no longer printed)
+	- had to move dlls to main folder. dunno why just pointing them at libs didn't work...
