@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "cube.h"
 
 // window dimensions
 int gl_width = 800;
@@ -39,6 +40,11 @@ int main()
     version = glGetString (GL_VERSION); /* version as a string */
     printf ("Renderer: %s\n", renderer);
     printf ("OpenGL version supported %s\n", version);
+
+    // GOAL #3: draw a cube
+    // gonna put cube info in a header so cleaner
+    // actually, gotta load shaders first, GOAL #3 PREREQ: LOAD SHADERS
+    // what was that cool way with like a generic loader? let's do that
 
     glEnable (GL_DEPTH_TEST); // enable depth-testing
     glDepthFunc (GL_LESS); // depth-testing interprets a smaller value as "closer"
