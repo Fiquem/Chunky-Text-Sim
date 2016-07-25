@@ -1,9 +1,8 @@
 // Entirely stolen from Anton
 // https://github.com/capnramses/storm_my_castle/blob/master/src/shader.h
 
-#include "GL/gl.h"
-
 #pragma once
+#include "GL/gl.h"
 
 typedef enum Shader_Attribs{
 	POINT = 0,
@@ -17,4 +16,6 @@ typedef struct Shader_Meta{
 	GLuint M_loc, V_loc, P_loc;
 }Shader_Meta;
 
-void create_program_from_files(const char* vertex_shader, const char* fragment_shader, Shader_Meta* shadermeta);
+void create_program_from_files(const char* vertex_shader, const char* fragment_shader, Shader_Meta* Shader_Meta);
+void compile_shader_from_file(const char* shader_file, GLenum shader_type, GLuint* shader);
+// Anton passes in fn as name for shader_file and uses it as suffix for vertex_shader and fragment_shader. Why? What does it stand for?
