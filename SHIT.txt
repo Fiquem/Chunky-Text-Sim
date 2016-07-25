@@ -7,3 +7,8 @@ Shit I had issues with:
 	- because rm isn't in mingw, neither is make but instead it has its own make which is why I had to alias that I guess???
 	- gonna install msys and see what happens
 	- lol yeah installed msys and set path variable to its bin and we good fam we good
+
+3. this one is just a shoutout to me for figuring out how to alter a makefile to include headers with the c files you know what I'm tlaking about
+	- why do I see projects with .o files?
+	- I'm just compiling all the .c ones
+	- should I be making .os somewhere???
