@@ -1,4 +1,4 @@
-#version 400
+#version 450
 
 in vec3 p;
 in vec2 t;

@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "cube.h"
+#include "shader.h"
 
 // window dimensions
 int gl_width = 800;
@@ -45,6 +46,8 @@ int main()
     // gonna put cube info in a header so cleaner
     // actually, gotta load shaders first, GOAL #3 PREREQ: LOAD SHADERS
     // what was that cool way with like a generic loader? let's do that
+    Shader_Meta basic_shadermeta;
+    create_program_from_files("basic.vert", "basic.frag", &basic_shadermeta);
 
     glEnable (GL_DEPTH_TEST); // enable depth-testing
     glDepthFunc (GL_LESS); // depth-testing interprets a smaller value as "closer"

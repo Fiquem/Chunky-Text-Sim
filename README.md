@@ -13,3 +13,4 @@ PLAN:
 -make a cube and put it on the screen to test lighting
 -generate like 20x20 points in rows/columns but with like a little random offset in every direction
 -slap it on the screen
+- how the fuuuuuuuuuuck do I format a .mdddddd
