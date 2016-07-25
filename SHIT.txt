@@ -1,4 +1,9 @@
 Shit I had issues with:
 -----------------------
-1. couldn't find glfw3.dll (when I added in glfwinit, program no longer printed)
+1. couldn't find glfw3.dll (when I added in glfwinit, program no longer printed) FIXED
 	- had to move dlls to main folder. dunno why just pointing them at libs didn't work...
+
+2. make clean doesn't work FIXED
+	- because rm isn't in mingw, neither is make but instead it has its own make which is why I had to alias that I guess???
+	- gonna install msys and see what happens
+	- lol yeah installed msys and set path variable to its bin and we good fam we good
