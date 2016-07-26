@@ -1,7 +1,5 @@
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "gl_utils.h"
+#include "utils.h"
 #include "cube.h"
 #include "shader.h"
 
@@ -32,7 +30,7 @@ int main()
     }
     glfwMakeContextCurrent (window);
 
-    // glewExperimental = GL_TRUE;
+    glewExperimental = GL_TRUE;
     glewInit ();
 
     /* get version info */
