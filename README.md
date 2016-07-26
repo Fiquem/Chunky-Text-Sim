@@ -14,3 +14,7 @@ PLAN:
 -generate like 20x20 points in rows/columns but with like a little random offset in every direction
 -slap it on the screen
 - how the fuuuuuuuuuuck do I format a .mdddddd
+
+## Things I installed to run stuff
+- MinGW/MSYS (need msys for proper make)
+- uh I feel like there was something else but I'm drawing a balnd
