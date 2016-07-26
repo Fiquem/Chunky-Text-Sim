@@ -48,5 +48,17 @@ bool create_program_from_files(const char* vertex_shader, const char* fragment_s
 	// can't compile because doesn't recognise those SHADER enums but if I include stuff compiler goes crazy I guess becayse I already include in main.c?
 	// so gonna copy more of Anton's stuff tomorrow - gl_utils!
 
+	// the little {} around blocks of code just define a scope, right? or what?
+	// why he doin' that here?
+	{
+		Shader_Meta->program = glCreateProgram();
+		glAttachShader(Shader_Meta->program, Shader_Meta->vertex_shader);
+		glAttachShader(Shader_Meta->program, Shader_Meta->fragment_shader);
+		glBindAttribLocation(Shader_Meta->program, POINT, "vp");
+		glBindAttribLocation(Shader_Meta->program, TEX_COORD, "vt");
+		glBindAttribLocation(Shader_Meta->program, NORMAL, "vn");
+		// WHY THE FUCK IS HE USING OLD SHADER CODE WHAT
+	}
+
 	return true;
 }
