@@ -12,3 +12,5 @@ Shit I had issues with:
 	- why do I see projects with .o files?
 	- I'm just compiling all the .c ones
 	- should I be making .os somewhere???
+
+4. I pushed a commit while github is down and now I don't know how to push that commit D:
