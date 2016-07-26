@@ -1,8 +1,8 @@
 #version 450
 
-layout (location=0) in vec3 vp;
-layout (location=1) in vec2 vt;
-layout (location=2) in vec3 vn;
+in vec3 vp;
+in vec2 vt;
+in vec3 vn;
 
 uniform mat4 M;
 uniform mat4 V;

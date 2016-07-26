@@ -22,8 +22,15 @@ Shit I had issues with:
 	- downloaded and compiled glew myself
 	- worked even though there were a bunch of errors! didn't realise that and spent way too long looking for another way to fix this!! that's really annoying, glew!!!
 
-6. what is he doing with his fucking shader thing I thought this was cool
+6. what is he doing with his fucking shader thing I thought this was cool FIXED
 	- but he;s using old shader code with attributes or varyiung or some shit?
 	- WHY
 	- is half this shader code even necessary?
 	- xan I update this?
+	- I@M AN IDIOT this all makes sense iugnore moe
+	- me
+
+7. shader compiler errors that mean I put in Anotn's error message stuff and it's complaining about repeated definitions? FIXED
+	- is the string for shaders not clearning itself or smth?>
+	- ... I guess that's what shader_string[0] = '\0'; is for eh
+	- I also go tlinker errors but that was me bieng dumb GL_COMPILE_STATUS instead of GL_LINK_STATUS in linker status thingy

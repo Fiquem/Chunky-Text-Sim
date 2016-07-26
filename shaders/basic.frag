@@ -17,7 +17,7 @@ void main () {
 
 	vec3 l_d = vec3 (0.3, 0.3, 0.3);
 	vec3 k_d = vec3 (0.3, 0.3, 0.7);
-	vec3 light_dir = (view * normalize (vec4 (1.0,1.0,1.0,0.0))).xyz;
+	vec3 light_dir = (V * normalize (vec4 (1.0,1.0,1.0,0.0))).xyz;
 	vec4 i_d = vec4 (l_d * k_d * max (0.0, dot (light_dir, renorm)), 0.0);
 
 	vec3 l_s = vec3 (1.0, 1.0, 1.0);
