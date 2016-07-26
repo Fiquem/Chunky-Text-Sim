@@ -12,5 +12,12 @@ Shit I had issues with:
 	- why do I see projects with .o files?
 	- I'm just compiling all the .c ones
 	- should I be making .os somewhere???
+	- FIXED no I no need no .o ;o
 
-4. I pushed a commit while github is down and now I don't know how to push that commit D:
+4. I pushed a commit while github is down and now I don't know how to push that commit D: FIXED
+	- pushing this change fixed it WEIRD
+
+5. weird glew errors like _imp________glewSomething undefined reference or some bull
+	- FUXKING GLEW WAS FOR FUCKING VS
+	- downloaded and compiled glew myself
+	- worked even though there were a bunch of errors! didn't realise that and spent way too long looking for another way to fix this!! that's really annoying, glew!!!

@@ -2,17 +2,42 @@
 // https://github.com/capnramses/storm_my_castle/blob/master/src/shader.c
 
 #include "shader.h"
-#include "stdio.h"
-#include "gl_utils.h"
+#include "utils.h"
 
 #define SHADER_PATH "shaders/"
 
-bool compile_shader_from_file(const char* shader_file, GLenum shader_type, GLuint* shader)
+bool compile_shader_from_file(const char* shader_file_name, GLenum shader_type, GLuint* shader)
 {
 	// I should probably also get into the habit of error checking...
 	// Make these bools or ints or smth and print error messages everywhere
 	// LATER
-	return 1;
+
+	printf("Loading shader file - %s\n", shader_file_name);
+
+	char shader_string[10000]; 
+	char shader_path[10000];
+	sprintf(shader_path, "%s%s", SHADER_PATH, shader_file_name);
+	FILE* shader_file = fopen(shader_path, "r");
+	if(!shader_file) printf("ERORR loading shader");
+	char line[1024];
+	while(fgets(line, 1024, shader_file))
+		strcat(shader_string, line);
+	fclose(shader_file);
+
+	const char* const_shader_string;
+	*shader = glCreateShader(shader_type);
+	glShaderSource(*shader, 1, &const_shader_string, NULL);
+	glCompileShader(*shader);
+	int params = -1;
+	glGetShaderiv(*shader, GL_COMPILE_STATUS, &params);
+	if(GL_TRUE != params) {
+		printf("ERORR shader didn't compile\n");
+		// I'll prob have to make this more detailed at some point but w/e
+		// I'm copying by the letter enough, ignoring bits is like the least I can do to make it my own~
+		return false;
+	}
+
+	return true;
 }
 
 bool create_program_from_files(const char* vertex_shader, const char* fragment_shader, Shader_Meta* Shader_Meta)
@@ -23,5 +48,5 @@ bool create_program_from_files(const char* vertex_shader, const char* fragment_s
 	// can't compile because doesn't recognise those SHADER enums but if I include stuff compiler goes crazy I guess becayse I already include in main.c?
 	// so gonna copy more of Anton's stuff tomorrow - gl_utils!
 
-	return 1;
+	return true;
 }
