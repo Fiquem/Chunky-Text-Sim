@@ -26,6 +26,10 @@ int main()
         glfwPollEvents();
         glfwSwapBuffers (g_gfx.window);
 
+        glUseProgram (basic_shadermeta.program);
+        glBindVertexArray (cube.vao);
+        glDrawArrays (GL_TRIANGLES, 0, cube.point_count);
+
         // GOAL #2: make this not crash
         if (glfwGetKey (g_gfx.window, GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose (g_gfx.window, GL_TRUE);

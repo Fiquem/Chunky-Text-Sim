@@ -16,5 +16,6 @@ void main () {
 	t = vt;
 	n = (V * M * vec4 (vn, 0.0)).xyz;
 	p = (V * M * vec4 (vp, 1.0)).xyz;
-	gl_Position = P * V * M * vec4 (vp, 1.0);
+	//gl_Position = P * V * M * vec4 (vp, 1.0);
+	gl_Position = vec4 (vp, 1.0);
 }

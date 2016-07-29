@@ -27,5 +27,6 @@ void main () {
 	float spec_exp = 100;
 	vec4 i_s = vec4 (l_s * k_s * max (0.0, pow (dot (v, r), spec_exp)), 0.0);
 
-	frag_colour = vec4(i_a+i_d+i_s);
+	//frag_colour = vec4(i_a+i_d+i_s);
+	frag_colour = vec4(1.0,1.0,1.0,1.0);
 }
