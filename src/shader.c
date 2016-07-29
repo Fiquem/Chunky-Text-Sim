@@ -2,7 +2,6 @@
 // https://github.com/capnramses/storm_my_castle/blob/master/src/shader.c
 
 #include "shader.h"
-#include "utils.h"
 
 #define SHADER_PATH "shaders/"
 

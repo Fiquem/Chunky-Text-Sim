@@ -1,7 +1,8 @@
 # Makefile where I learn how to make a Makefile
 CC = g++
 SRC = src/main.c \
-	src/shader.c
+	src/shader.c \
+	src/gl_utils.c
 TARGET = game
 CFLAGS = -g
 INC_DIR = -I ./lib/include

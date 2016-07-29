@@ -2,7 +2,7 @@
 // https://github.com/capnramses/storm_my_castle/blob/master/src/shader.h
 
 #pragma once
-#include "utils.h"
+#include "gl_utils.h"
 
 typedef enum Shader_Attribs{
 	POINT = 0,
