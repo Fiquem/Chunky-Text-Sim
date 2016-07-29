@@ -2,7 +2,8 @@
 CC = g++
 SRC = src/main.c \
 	src/shader.c \
-	src/gl_utils.c
+	src/gl_utils.c \
+	src/mesh.c
 TARGET = game
 CFLAGS = -g
 INC_DIR = -I ./lib/include

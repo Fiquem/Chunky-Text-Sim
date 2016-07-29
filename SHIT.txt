@@ -34,3 +34,9 @@ Shit I had issues with:
 	- is the string for shaders not clearning itself or smth?>
 	- ... I guess that's what shader_string[0] = '\0'; is for eh
 	- I also go tlinker errors but that was me bieng dumb GL_COMPILE_STATUS instead of GL_LINK_STATUS in linker status thingy
+
+8. gotta make a nice mesh struct like shader struct because god damn it's too neat not to
+	- I don't have a clue what this boy is doing in mesh.c where are his vbos
+	- I don't need those? why have I been using those?
+	- what even is graphics
+	- oh just different data format than I'm used to?

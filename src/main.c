@@ -1,8 +1,7 @@
 
 #include "gl_utils.h"
-#include "cube.h"
 #include "shader.h"
-
+#include "mesh.h"
 
 int main()
 {
@@ -15,6 +14,8 @@ int main()
     // what was that cool way with like a generic loader? let's do that
     Shader_Meta basic_shadermeta;
     create_program_from_files("basic.vert", "basic.frag", &basic_shadermeta);
+
+    Mesh cube = load_cube_mesh();
 
     // draw loop
     while (!glfwWindowShouldClose (g_gfx.window)) {

@@ -48,6 +48,8 @@ float cube_points[] = {
      0.5f, -0.5f,  0.5f
 };
 
+float cube_tex_coords[] = {};
+
 float cube_normals[] = {
     // back
      0.0f,  0.0f, -1.0f,
