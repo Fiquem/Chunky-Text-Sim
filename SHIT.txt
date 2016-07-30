@@ -43,3 +43,6 @@ Shit I had issues with:
 	- I cab;t find my triables
 	- I stole a cubemap cube is why so all my triangles are facing the wrong way oops
 	- still can't find it
+	- HOLYU FUCKJ I FOUYND IT
+	- dumb thing that I did: order of drawing things and clearing things and swapping frame buffer. what I had: clear, swap, draw (see the issue?). order that I need: clear, draw, swap.
+	- I'm so mucb dumb.,

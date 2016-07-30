@@ -26,13 +26,11 @@ int main()
         glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         // just the default viewport, covering the whole render area
         glViewport (0, 0, INIT_WIN_WIDTH, INIT_WIN_HEIGHT);
-        glfwPollEvents();
-        glfwSwapBuffers (g_gfx.window);
 
         glUseProgram (basic_shadermeta.program);
         glBindVertexArray (cube.vao);
         glUniformMatrix4fv (basic_shadermeta.M_loc, 1, GL_FALSE, translate(identity_mat4(), vec3(0.0, 0.0, -1.0)).m);
-        glUniformMatrix4fv (basic_shadermeta.V_loc, 1, GL_FALSE, translate(identity_mat4(), vec3(0.0, 0.0, -1.0)).m);
+        glUniformMatrix4fv (basic_shadermeta.V_loc, 1, GL_FALSE, translate(identity_mat4(), cam_pos).m);
         glUniformMatrix4fv (basic_shadermeta.P_loc, 1, GL_FALSE, perspective(90, 800.0/600.0, 0.01, 1000.0).m);
         glDrawArrays (GL_TRIANGLES, 0, cube.point_count);
         // WHY DOES THIS CRASH
@@ -51,6 +49,10 @@ int main()
             cam_pos.v[2]++;
         printf("%f %f %f\n", cam_pos.v[0], cam_pos.v[1], cam_pos.v[2]);
 
+        glfwPollEvents();
+        // I swear to god if this is why
+        // OH MY GOD THIS WAS WHY
+        glfwSwapBuffers (g_gfx.window);
     }
 
     printf("\n------ End Program ------\n\n");

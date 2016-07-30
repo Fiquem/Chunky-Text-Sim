@@ -26,7 +26,7 @@ bool init_gl(){
     glEnable (GL_DEPTH_TEST); // enable depth-testing
     glDepthFunc (GL_LESS); // depth-testing interprets a smaller value as "closer"
     glClearColor (0.902, 0.408, 0.573, 1.0);
-    glDisable (GL_CULL_FACE);
+    glEnable (GL_CULL_FACE);
     glCullFace (GL_BACK);
     glFrontFace (GL_CCW);
 }
