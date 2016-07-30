@@ -2,6 +2,7 @@
 #include "gl_utils.h"
 #include "shader.h"
 #include "mesh.h"
+#include "maths_funcs.h"
 
 int main()
 {
@@ -26,9 +27,20 @@ int main()
         glfwPollEvents();
         glfwSwapBuffers (g_gfx.window);
 
+        printf("drawing cube\n");
         glUseProgram (basic_shadermeta.program);
         glBindVertexArray (cube.vao);
+        glUniformMatrix4fv (basic_shadermeta.M_loc, 1, GL_FALSE, identity_mat4().m);
+        glUniformMatrix4fv (basic_shadermeta.V_loc, 1, GL_FALSE, identity_mat4().m);
+        glUniformMatrix4fv (basic_shadermeta.P_loc, 1, GL_FALSE, identity_mat4().m);
         glDrawArrays (GL_TRIANGLES, 0, cube.point_count);
+        printf("cube drawn\n");
+        // WHY DOES THIS CRASH
+        // WHERE IS THAT CRASHING
+        // SOMETIMES HERE AND SOMETIMES LOADING THE CUBE
+        // WHY
+        // oops I commented out the pint count
+        // still no cube though
 
         // GOAL #2: make this not crash
         if (glfwGetKey (g_gfx.window, GLFW_KEY_ESCAPE))

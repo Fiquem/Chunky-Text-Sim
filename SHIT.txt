@@ -41,3 +41,5 @@ Shit I had issues with:
 	- what even is graphics
 	- oh just different data format than I'm used to?
 	- I cab;t find my triables
+	- I stole a cubemap cube is why so all my triangles are facing the wrong way oops
+	- still can't find it

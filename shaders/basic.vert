@@ -8,14 +8,6 @@ uniform mat4 M;
 uniform mat4 V;
 uniform mat4 P;
 
-out vec3 p;
-out vec2 t;
-out vec3 n;
-
 void main () {
-	t = vt;
-	n = (V * M * vec4 (vn, 0.0)).xyz;
-	p = (V * M * vec4 (vp, 1.0)).xyz;
-	//gl_Position = P * V * M * vec4 (vp, 1.0);
-	gl_Position = vec4 (vp, 1.0);
+	gl_Position = P * V * M * vec4 (vp, 1.0);
 }
