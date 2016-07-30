@@ -4,6 +4,8 @@
 #include "mesh.h"
 #include "maths_funcs.h"
 
+vec3 cam_pos = vec3(0.0,0.0,0.0);
+
 int main()
 {
     printf("\n----- Start Program -----\n\n");
@@ -27,14 +29,12 @@ int main()
         glfwPollEvents();
         glfwSwapBuffers (g_gfx.window);
 
-        printf("drawing cube\n");
         glUseProgram (basic_shadermeta.program);
         glBindVertexArray (cube.vao);
-        glUniformMatrix4fv (basic_shadermeta.M_loc, 1, GL_FALSE, identity_mat4().m);
-        glUniformMatrix4fv (basic_shadermeta.V_loc, 1, GL_FALSE, identity_mat4().m);
-        glUniformMatrix4fv (basic_shadermeta.P_loc, 1, GL_FALSE, identity_mat4().m);
+        glUniformMatrix4fv (basic_shadermeta.M_loc, 1, GL_FALSE, translate(identity_mat4(), vec3(0.0, 0.0, -1.0)).m);
+        glUniformMatrix4fv (basic_shadermeta.V_loc, 1, GL_FALSE, translate(identity_mat4(), vec3(0.0, 0.0, -1.0)).m);
+        glUniformMatrix4fv (basic_shadermeta.P_loc, 1, GL_FALSE, perspective(90, 800.0/600.0, 0.01, 1000.0).m);
         glDrawArrays (GL_TRIANGLES, 0, cube.point_count);
-        printf("cube drawn\n");
         // WHY DOES THIS CRASH
         // WHERE IS THAT CRASHING
         // SOMETIMES HERE AND SOMETIMES LOADING THE CUBE
@@ -45,6 +45,11 @@ int main()
         // GOAL #2: make this not crash
         if (glfwGetKey (g_gfx.window, GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose (g_gfx.window, GL_TRUE);
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_W))
+            cam_pos.v[2]--;
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_S))
+            cam_pos.v[2]++;
+        printf("%f %f %f\n", cam_pos.v[0], cam_pos.v[1], cam_pos.v[2]);
 
     }
 
