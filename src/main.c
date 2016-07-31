@@ -20,6 +20,9 @@ int main()
 
     Mesh cube = load_cube_mesh();
 
+    // GOAL #4: draw a plane with points with sorta randomised offsets
+    Mesh plane = load_plane_mesh();
+
     // draw loop
     while (!glfwWindowShouldClose (g_gfx.window)) {
 
@@ -39,8 +42,6 @@ int main()
         // WHY
         // oops I commented out the pint count
         // still no cube though
-
-        // GOAL #4: draw a plane with points with sorta randomised offsets
 
         // GOAL #2: make this not crash (COMPLETE)
         if (glfwGetKey (g_gfx.window, GLFW_KEY_ESCAPE))

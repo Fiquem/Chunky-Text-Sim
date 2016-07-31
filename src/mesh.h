@@ -9,3 +9,6 @@ typedef struct Mesh{
 }Mesh;
 
 Mesh load_cube_mesh();
+Mesh load_plane_mesh();
+float* gen_plane_points(int rows, int cols, int min_off, int max_off);
+float* gen_plane_normals(float* points, int num_points);
