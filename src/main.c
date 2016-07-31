@@ -4,7 +4,7 @@
 #include "mesh.h"
 #include "maths_funcs.h"
 
-vec3 cam_pos = vec3(0.0,0.0,0.0);
+vec3 cam_pos = vec3(0.0,0.0,-5.0);
 
 int main()
 {
@@ -29,7 +29,7 @@ int main()
 
         glUseProgram (basic_shadermeta.program);
         glBindVertexArray (cube.vao);
-        glUniformMatrix4fv (basic_shadermeta.M_loc, 1, GL_FALSE, translate(identity_mat4(), vec3(0.0, 0.0, -1.0)).m);
+        glUniformMatrix4fv (basic_shadermeta.M_loc, 1, GL_FALSE, translate(identity_mat4(), vec3(0.0, 0.0, 0.0)).m);
         glUniformMatrix4fv (basic_shadermeta.V_loc, 1, GL_FALSE, translate(identity_mat4(), cam_pos).m);
         glUniformMatrix4fv (basic_shadermeta.P_loc, 1, GL_FALSE, perspective(90, 800.0/600.0, 0.01, 1000.0).m);
         glDrawArrays (GL_TRIANGLES, 0, cube.point_count);
@@ -44,10 +44,13 @@ int main()
         if (glfwGetKey (g_gfx.window, GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose (g_gfx.window, GL_TRUE);
         if (glfwGetKey (g_gfx.window, GLFW_KEY_W))
-            cam_pos.v[2]--;
+            cam_pos.v[1] -= 0.1;
         if (glfwGetKey (g_gfx.window, GLFW_KEY_S))
-            cam_pos.v[2]++;
-        printf("%f %f %f\n", cam_pos.v[0], cam_pos.v[1], cam_pos.v[2]);
+            cam_pos.v[1] += 0.1;
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_A))
+            cam_pos.v[0] += 0.1;
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_D))
+            cam_pos.v[0] -= 0.1;
 
         glfwPollEvents();
         // I swear to god if this is why

@@ -1,9 +1,3 @@
-float tri[] = {
-    0.0f,  0.5f,  0.0f,
-    0.5f, -0.5f,  0.0f,
-   -0.5f, -0.5f,  0.0f
-};
-
 float cube_points[] = {
     // back
      0.5f, -0.5f, -0.5f,
