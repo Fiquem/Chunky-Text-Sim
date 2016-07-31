@@ -42,7 +42,7 @@ float* gen_plane_points(int rows, int cols, int min_off, int max_off){
 		for (int j = 0; j < 3*cols; j+=3){
 			plane_points_quads[(3*cols*i) + j] = j;
 			plane_points_quads[(3*cols*i) + j + 1] = i;
-			plane_points_quads[(3*cols*i) + j + 2] = 0;
+			plane_points_quads[(3*cols*i) + j + 2] = 0.0;
 		}
 
 	// Change quads to tris
@@ -50,11 +50,11 @@ float* gen_plane_points(int rows, int cols, int min_off, int max_off){
 	// think we're gonna do this in steps. bare number of points -> points with repetition as if we were to draw quads -> tris
 	// ooh, what's the rule for the number of points I need here
 	// 2 rows 2 cols -> 4, 2 rows 3 cols -> 8, 2,4 = 12, so 4*n-1 where n = cols
-	// 3 rows 2 cols -> 8, 3 rows 3 cols -> 16, 4*n-1*m-2, n=cols, m=rows LEGGO
+	// 3 rows 2 cols -> 8, 3 rows 3 cols -> 16, 4*n-1*m-1, n=cols, m=rows LEGGO
 	float* plane_points_quads_with_repetition = (float*)malloc(sizeof(float)*3*(rows-1)*(cols-1)*4);
 	int index = 0;
 	for (int i = 0; i < rows - 1; i++)
-		for (int j = 0; j < cols - 1; j+=3){
+		for (int j = 0; j < 3*(cols - 1); j+=3){
 			plane_points_quads_with_repetition[index] = plane_points_quads[(3*cols*i) + j];
 			plane_points_quads_with_repetition[index + 1] = plane_points_quads[(3*cols*i) + j + 1];
 			plane_points_quads_with_repetition[index + 2] = plane_points_quads[(3*cols*i) + j + 2];
