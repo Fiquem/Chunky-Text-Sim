@@ -11,7 +11,7 @@ int main()
     printf("\n----- Start Program -----\n\n");
     init_gl();
 
-    // GOAL #3: draw a cube
+    // GOAL #3: draw a cube (COMPLETE)
     // gonna put cube info in a header so cleaner
     // actually, gotta load shaders first, GOAL #3 PREREQ: LOAD SHADERS
     // what was that cool way with like a generic loader? let's do that
@@ -40,7 +40,9 @@ int main()
         // oops I commented out the pint count
         // still no cube though
 
-        // GOAL #2: make this not crash
+        // GOAL #4: draw a plane with points with sorta randomised offsets
+
+        // GOAL #2: make this not crash (COMPLETE)
         if (glfwGetKey (g_gfx.window, GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose (g_gfx.window, GL_TRUE);
         if (glfwGetKey (g_gfx.window, GLFW_KEY_W))
