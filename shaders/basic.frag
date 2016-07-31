@@ -10,15 +10,15 @@ out vec4 frag_colour;
 
 void main () {
 	// ambient colour
-	vec3 l_a = vec3 (0.2, 0.2, 0.2);
-	vec3 k_a = vec3 (0.2, 0.2, 0.2);
+	vec3 l_a = vec3 (0.8, 0.8, 0.8);
+	vec3 k_a = vec3 (0.902, 0.408, 0.573);
 	vec4 i_a = vec4 (l_a * k_a, 1.0);
 
 	vec3 renorm = normalize (n);
 
 	// diffuse
-	vec3 l_d = vec3 (0.3, 0.3, 0.3);
-	vec3 k_d = vec3 (0.3, 0.3, 0.7);
+	vec3 l_d = vec3 (1.0, 1.0, 1.0);
+	vec3 k_d = vec3 (0.902, 0.408, 0.573);
 	vec3 light_dir = (V * normalize (vec4 (10.0,10.0,10.0,0.0))).xyz;
 	vec4 i_d = vec4 (l_d * k_d * max (0.0, dot (light_dir, renorm)), 1.0);
 
