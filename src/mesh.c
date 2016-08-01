@@ -40,9 +40,9 @@ float* gen_plane_points(int rows, int cols, int min_off, int max_off){
 	// x = row num, y = col num, z = 0 - flat
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < 3*cols; j+=3){
-			plane_points_quads[(3*cols*i) + j] = (float)j;
-			plane_points_quads[(3*cols*i) + j + 1] = (float)i;
-			plane_points_quads[(3*cols*i) + j + 2] = 0.0f;
+			plane_points_quads[(3*cols*i) + j] = (float)(j/3);
+			plane_points_quads[(3*cols*i) + j + 1] = 0.0f;
+			plane_points_quads[(3*cols*i) + j + 2] = (float)-i;
 		}
 
 	// Change quads to tris
