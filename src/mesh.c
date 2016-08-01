@@ -10,9 +10,9 @@ Mesh load_cube_mesh(){
 	glGenBuffers (1, &cube.point_vbo);
 	glBindBuffer (GL_ARRAY_BUFFER, cube.point_vbo);
 	glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 3 * cube.point_count, cube_points, GL_STATIC_DRAW);
-	glGenBuffers (1, &cube.tex_vbo);
-	glBindBuffer (GL_ARRAY_BUFFER, cube.tex_vbo);
-	glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 2 * cube.point_count, cube_tex_coords, GL_STATIC_DRAW);
+	//glGenBuffers (1, &cube.tex_vbo);
+	//glBindBuffer (GL_ARRAY_BUFFER, cube.tex_vbo);
+	//glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 2 * cube.point_count, cube_tex_coords, GL_STATIC_DRAW);
 	glGenBuffers (1, &cube.normal_vbo);
 	glBindBuffer (GL_ARRAY_BUFFER, cube.normal_vbo);
 	glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 3 * cube.point_count, cube_normals, GL_STATIC_DRAW);
@@ -20,11 +20,11 @@ Mesh load_cube_mesh(){
 	glGenVertexArrays (1, &cube.vao);
 	glBindVertexArray (cube.vao);
 	glEnableVertexAttribArray (POINT);
-	glEnableVertexAttribArray (TEX_COORD);
+	//glEnableVertexAttribArray (TEX_COORD);
 	glEnableVertexAttribArray (NORMAL);
 	glBindBuffer (GL_ARRAY_BUFFER, cube.point_vbo);
 	glVertexAttribPointer (POINT, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-	glVertexAttribPointer (TEX_COORD, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	//glVertexAttribPointer (TEX_COORD, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glBindBuffer (GL_ARRAY_BUFFER, cube.normal_vbo);
 	glVertexAttribPointer (NORMAL, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
@@ -40,9 +40,9 @@ float* gen_plane_points(int rows, int cols, int min_off, int max_off){
 	// x = row num, y = col num, z = 0 - flat
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < 3*cols; j+=3){
-			plane_points_quads[(3*cols*i) + j] = j;
-			plane_points_quads[(3*cols*i) + j + 1] = i;
-			plane_points_quads[(3*cols*i) + j + 2] = 0.0;
+			plane_points_quads[(3*cols*i) + j] = (float)j;
+			plane_points_quads[(3*cols*i) + j + 1] = (float)i;
+			plane_points_quads[(3*cols*i) + j + 2] = 0.0f;
 		}
 
 	// Change quads to tris
@@ -136,9 +136,10 @@ Mesh load_plane_mesh(){
 	glGenBuffers (1, &plane.point_vbo);
 	glBindBuffer (GL_ARRAY_BUFFER, plane.point_vbo);
 	glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 3 * plane.point_count, plane_points, GL_STATIC_DRAW);
-	glGenBuffers (1, &plane.tex_vbo);
-	glBindBuffer (GL_ARRAY_BUFFER, plane.tex_vbo);
-	glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 2 * plane.point_count, plane_tex_coords, GL_STATIC_DRAW);
+	printf("loaded vbo points\n");
+	//glGenBuffers (1, &plane.tex_vbo);
+	//glBindBuffer (GL_ARRAY_BUFFER, plane.tex_vbo);
+	//glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 2 * plane.point_count, plane_tex_coords, GL_STATIC_DRAW);
 	glGenBuffers (1, &plane.normal_vbo);
 	glBindBuffer (GL_ARRAY_BUFFER, plane.normal_vbo);
 	glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 3 * plane.point_count, plane_normals, GL_STATIC_DRAW);
@@ -148,11 +149,11 @@ Mesh load_plane_mesh(){
 	glGenVertexArrays (1, &plane.vao);
 	glBindVertexArray (plane.vao);
 	glEnableVertexAttribArray (POINT);
-	glEnableVertexAttribArray (TEX_COORD);
+	//glEnableVertexAttribArray (TEX_COORD);
 	glEnableVertexAttribArray (NORMAL);
 	glBindBuffer (GL_ARRAY_BUFFER, plane.point_vbo);
 	glVertexAttribPointer (POINT, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-	glVertexAttribPointer (TEX_COORD, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	//glVertexAttribPointer (TEX_COORD, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glBindBuffer (GL_ARRAY_BUFFER, plane.normal_vbo);
 	glVertexAttribPointer (NORMAL, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 

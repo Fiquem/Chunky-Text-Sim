@@ -46,3 +46,7 @@ Shit I had issues with:
 	- HOLYU FUCKJ I FOUYND IT
 	- dumb thing that I did: order of drawing things and clearing things and swapping frame buffer. what I had: clear, swap, draw (see the issue?). order that I need: clear, draw, swap.
 	- I'm so mucb dumb.,
+
+9. Why is it crashing this time: a plane story
+	- commenting out the loading the tex coords stuff fixed it? even though I'm doing the exact same thing with the cube??
+	- WHO KNOWS
