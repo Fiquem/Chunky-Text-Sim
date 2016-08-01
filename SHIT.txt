@@ -51,6 +51,9 @@ Shit I had issues with:
 	- commenting out the loading the tex coords stuff fixed it? even though I'm doing the exact same thing with the cube??
 	- WHO KNOWS
 
-10. Why is my plane
+10. Why is my plane FIXED
 	- 1: far wider than it should be
 	- 2@ lying on the wrong axis
+	- I am dumb this is not an issue
+
+11. Gotta claculate normals oh jesus
