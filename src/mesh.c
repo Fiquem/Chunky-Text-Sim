@@ -1,6 +1,7 @@
 #include "mesh.h"
 #include "cube.h"
 #include "shader.h"
+#include "maths_funcs.h"
 
 Mesh load_cube_mesh(){
 	Mesh cube;
@@ -115,6 +116,29 @@ float* gen_plane_normals(float* points, int num_points){
 		normals[i + 1] = 1.0;
 		normals[i + 2] = 0.0;
 	}
+
+	// simple enough
+	// for every three points, get 2 vectors and cross product
+	// I did 'em backwards the first time OOPS
+	// the cross product is order dependent yo
+
+	for (int i = 0; i < 3*num_points; i+=9)
+	{
+		vec3 v0 = vec3(points[i],points[i+1],points[i+2]);
+		vec3 v1 = vec3(points[i+3],points[i+4],points[i+5]);
+		vec3 c = cross(v1,v0);
+
+		normals[i] = c.v[0];
+		normals[i + 1] = c.v[1];
+		normals[i + 2] = c.v[2];
+		normals[i + 3] = c.v[0];
+		normals[i + 4] = c.v[1];
+		normals[i + 5] = c.v[2];
+		normals[i + 6] = c.v[0];
+		normals[i + 7] = c.v[1];
+		normals[i + 8] = c.v[2];
+	}
+
 	return normals;
 }
 
@@ -131,20 +155,15 @@ Mesh load_plane_mesh(){
 	float* plane_normals = gen_plane_normals(plane_points, plane.point_count);
 	float plane_tex_coords[] = {};
 
-	printf("loaded data\n");
-
 	glGenBuffers (1, &plane.point_vbo);
 	glBindBuffer (GL_ARRAY_BUFFER, plane.point_vbo);
 	glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 3 * plane.point_count, plane_points, GL_STATIC_DRAW);
-	printf("loaded vbo points\n");
 	//glGenBuffers (1, &plane.tex_vbo);
 	//glBindBuffer (GL_ARRAY_BUFFER, plane.tex_vbo);
 	//glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 2 * plane.point_count, plane_tex_coords, GL_STATIC_DRAW);
 	glGenBuffers (1, &plane.normal_vbo);
 	glBindBuffer (GL_ARRAY_BUFFER, plane.normal_vbo);
 	glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 3 * plane.point_count, plane_normals, GL_STATIC_DRAW);
-
-	printf("loaded vbos\n");
 
 	glGenVertexArrays (1, &plane.vao);
 	glBindVertexArray (plane.vao);
