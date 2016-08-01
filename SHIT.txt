@@ -35,7 +35,7 @@ Shit I had issues with:
 	- ... I guess that's what shader_string[0] = '\0'; is for eh
 	- I also go tlinker errors but that was me bieng dumb GL_COMPILE_STATUS instead of GL_LINK_STATUS in linker status thingy
 
-8. gotta make a nice mesh struct like shader struct because god damn it's too neat not to
+8. gotta make a nice mesh struct like shader struct because god damn it's too neat not to DONE
 	- I don't have a clue what this boy is doing in mesh.c where are his vbos
 	- I don't need those? why have I been using those?
 	- what even is graphics
@@ -47,6 +47,10 @@ Shit I had issues with:
 	- dumb thing that I did: order of drawing things and clearing things and swapping frame buffer. what I had: clear, swap, draw (see the issue?). order that I need: clear, draw, swap.
 	- I'm so mucb dumb.,
 
-9. Why is it crashing this time: a plane story
+9. Why is it crashing this time: a plane story FIXED
 	- commenting out the loading the tex coords stuff fixed it? even though I'm doing the exact same thing with the cube??
 	- WHO KNOWS
+
+10. Why is my plane
+	- 1: far wider than it should be
+	- 2@ lying on the wrong axis
