@@ -21,7 +21,10 @@ int main()
     Mesh cube = load_cube_mesh();
 
     // GOAL #4: draw a plane with points with sorta randomised offsets
-    Mesh plane = load_plane_mesh();
+    // GOAL #5: make the plane kinda wobbly
+    float* plane_points = gen_plane_points(100, 100, -1, 1);
+    Mesh plane = load_plane_mesh_given_points(plane_points);
+    //Mesh plane = load_plane_mesh();
 
     // draw loop
     while (!glfwWindowShouldClose (g_gfx.window)) {
@@ -29,7 +32,12 @@ int main()
         glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         // just the default viewport, covering the whole render area
         glViewport (0, 0, INIT_WIN_WIDTH, INIT_WIN_HEIGHT);
-        
+
+        // displace points
+        // redo mesh
+        plane_points = displace_points(plane_points, 100, 100);
+        plane = load_plane_mesh_given_points(plane_points);
+
         glUseProgram (basic_shadermeta.program);
         glBindVertexArray (plane.vao);
         glUniformMatrix4fv (basic_shadermeta.M_loc, 1, GL_FALSE, identity_mat4().m);

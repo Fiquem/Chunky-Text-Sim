@@ -60,3 +60,5 @@ Shit I had issues with:
 	- did it wrong first
 	- but then I did it right
 	- (was getting the cross product of points instead of vectors oh dear)
+
+12. Occurred to me that I could be doing stuff like this in shaders, but is there a way to get previous/next point for normal calc?

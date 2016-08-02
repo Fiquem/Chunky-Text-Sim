@@ -194,3 +194,48 @@ Mesh load_plane_mesh(){
 	printf("plane loaded\n");
 	return plane;
 }
+
+Mesh load_plane_mesh_given_points(float* plane_points){
+	Mesh plane;
+	int num_rows = 100;
+	int num_cols = 100;
+	float min_offset = -1.0;
+	float max_offset = 1.0;
+	plane.point_count = (num_rows-1)*(num_cols-1)*6;
+	//printf("loading plane\n");
+
+	float* plane_normals = gen_plane_normals(plane_points, plane.point_count);
+	float plane_tex_coords[] = {};
+
+	glGenBuffers (1, &plane.point_vbo);
+	glBindBuffer (GL_ARRAY_BUFFER, plane.point_vbo);
+	glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 3 * plane.point_count, plane_points, GL_STATIC_DRAW);
+	//glGenBuffers (1, &plane.tex_vbo);
+	//glBindBuffer (GL_ARRAY_BUFFER, plane.tex_vbo);
+	//glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 2 * plane.point_count, plane_tex_coords, GL_STATIC_DRAW);
+	glGenBuffers (1, &plane.normal_vbo);
+	glBindBuffer (GL_ARRAY_BUFFER, plane.normal_vbo);
+	glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 3 * plane.point_count, plane_normals, GL_STATIC_DRAW);
+
+	glGenVertexArrays (1, &plane.vao);
+	glBindVertexArray (plane.vao);
+	glEnableVertexAttribArray (POINT);
+	//glEnableVertexAttribArray (TEX_COORD);
+	glEnableVertexAttribArray (NORMAL);
+	glBindBuffer (GL_ARRAY_BUFFER, plane.point_vbo);
+	glVertexAttribPointer (POINT, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	//glVertexAttribPointer (TEX_COORD, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glBindBuffer (GL_ARRAY_BUFFER, plane.normal_vbo);
+	glVertexAttribPointer (NORMAL, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
+	//printf("plane loaded\n");
+	return plane;
+}
+
+float* displace_points(float* points, int rows, int cols){
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < 3*cols; j+=3)
+			if (points[(3*cols*i) + j + 1] < 2.0)
+				points[(3*cols*i) + j + 1] += (10.0-points[(3*cols*i) + j + 1])/1000.0;
+	return points;
+}
