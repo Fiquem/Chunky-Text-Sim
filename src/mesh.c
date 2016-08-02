@@ -51,7 +51,7 @@ float* gen_plane_points(int rows, int cols, int min_off, int max_off){
 	srand(time(NULL));
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < 3*cols; j++){
-			plane_points_quads[(3*cols*i) + j] += -1.0f + (rand() % 20)/10.0f;
+			plane_points_quads[(3*cols*i) + j] += -0.5f + (rand() % 10)/10.0f;
 		}
 
 	// Change quads to tris
@@ -159,8 +159,8 @@ float* gen_plane_normals(float* points, int num_points){
 
 Mesh load_plane_mesh(){
 	Mesh plane;
-	int num_rows = 10;
-	int num_cols = 10;
+	int num_rows = 100;
+	int num_cols = 100;
 	float min_offset = -1.0;
 	float max_offset = 1.0;
 	plane.point_count = (num_rows-1)*(num_cols-1)*6;
