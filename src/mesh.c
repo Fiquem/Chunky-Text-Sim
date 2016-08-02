@@ -2,6 +2,7 @@
 #include "cube.h"
 #include "shader.h"
 #include "maths_funcs.h"
+#include "time.h"
 
 Mesh load_cube_mesh(){
 	Mesh cube;
@@ -44,6 +45,13 @@ float* gen_plane_points(int rows, int cols, int min_off, int max_off){
 			plane_points_quads[(3*cols*i) + j] = (float)(j/3);
 			plane_points_quads[(3*cols*i) + j + 1] = 0.0f;
 			plane_points_quads[(3*cols*i) + j + 2] = (float)-i;
+		}
+
+		// do a little offset each way
+	srand(time(NULL));
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < 3*cols; j++){
+			plane_points_quads[(3*cols*i) + j] += -1.0f + (rand() % 20)/10.0f;
 		}
 
 	// Change quads to tris

@@ -56,7 +56,7 @@ Shit I had issues with:
 	- 2@ lying on the wrong axis
 	- I am dumb this is not an issue
 
-11. Gotta claculate normals oh jesus
+11. Gotta claculate normals oh jesus DONEZO
 	- did it wrong first
 	- but then I did it right
 	- (was getting the cross product of points instead of vectors oh dear)
