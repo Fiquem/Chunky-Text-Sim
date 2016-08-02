@@ -29,7 +29,7 @@ int main()
         glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         // just the default viewport, covering the whole render area
         glViewport (0, 0, INIT_WIN_WIDTH, INIT_WIN_HEIGHT);
-
+        
         glUseProgram (basic_shadermeta.program);
         glBindVertexArray (plane.vao);
         glUniformMatrix4fv (basic_shadermeta.M_loc, 1, GL_FALSE, identity_mat4().m);

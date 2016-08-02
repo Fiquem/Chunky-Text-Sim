@@ -57,3 +57,6 @@ Shit I had issues with:
 	- I am dumb this is not an issue
 
 11. Gotta claculate normals oh jesus
+	- did it wrong first
+	- but then I did it right
+	- (was getting the cross product of points instead of vectors oh dear)

@@ -122,11 +122,18 @@ float* gen_plane_normals(float* points, int num_points){
 	// I did 'em backwards the first time OOPS
 	// the cross product is order dependent yo
 
+	// oh dear there's some weird stuff happening
+	// Normals not right on the first row of trangles (well, half the dfirst row)
+
 	for (int i = 0; i < 3*num_points; i+=9)
 	{
-		vec3 v0 = vec3(points[i],points[i+1],points[i+2]);
-		vec3 v1 = vec3(points[i+3],points[i+4],points[i+5]);
-		vec3 c = cross(v1,v0);
+		vec3 p0 = vec3(points[i],points[i+1],points[i+2]);
+		vec3 p1 = vec3(points[i+3],points[i+4],points[i+5]);
+		vec3 p2 = vec3(points[i+6],points[i+7],points[i+8]);
+		// I was just using the points, not the vectors.............
+		vec3 v0 = p1 - p0;
+		vec3 v1 = p2 - p1;
+		vec3 c = cross(v0,v1);
 
 		normals[i] = c.v[0];
 		normals[i + 1] = c.v[1];
