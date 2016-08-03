@@ -35,7 +35,7 @@ int main()
 
         // displace points
         // redo mesh
-        plane_points = displace_points(plane_points, 100, 100);
+        plane_points = displace_points(plane_points, plane.point_count);
         plane = load_plane_mesh_given_points(plane_points);
 
         glUseProgram (basic_shadermeta.program);

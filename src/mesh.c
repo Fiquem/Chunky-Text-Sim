@@ -232,10 +232,9 @@ Mesh load_plane_mesh_given_points(float* plane_points){
 	return plane;
 }
 
-float* displace_points(float* points, int rows, int cols){
-	for (int i = 0; i < rows; i++)
-		for (int j = 0; j < 3*cols; j+=3)
-			if (points[(3*cols*i) + j + 1] < 2.0)
-				points[(3*cols*i) + j + 1] += (10.0-points[(3*cols*i) + j + 1])/1000.0;
+float* displace_points(float* points, int num_points){
+	for (int i = 0; i < 3*num_points; i+=3)
+		if (points[i + 1] < 2.0)
+			points[i + 1] += (10.0-points[i + 1])/1000.0;
 	return points;
 }

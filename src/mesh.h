@@ -13,4 +13,4 @@ Mesh load_plane_mesh();
 Mesh load_plane_mesh_given_points(float* points);
 float* gen_plane_points(int rows, int cols, int min_off, int max_off);
 float* gen_plane_normals(float* points, int num_points);
-float* displace_points(float* points, int rows, int cols);
+float* displace_points(float* points, int num_points);
