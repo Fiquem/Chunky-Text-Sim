@@ -35,7 +35,7 @@ Mesh load_cube_mesh(){
 	// why isn't this workingngggngg
 }
 
-float* gen_plane_points(int rows, int cols, int min_off, int max_off){
+float* gen_plane_points(int rows, int cols){
 
 	float* plane_points_quads = (float*)malloc(sizeof(float)*3*rows*cols);
 	// Create an array of size num rows * num cols * 3 points
@@ -159,14 +159,10 @@ float* gen_plane_normals(float* points, int num_points){
 
 Mesh load_plane_mesh(){
 	Mesh plane;
-	int num_rows = 100;
-	int num_cols = 100;
-	float min_offset = -1.0;
-	float max_offset = 1.0;
-	plane.point_count = (num_rows-1)*(num_cols-1)*6;
+	plane.point_count = (NUM_ROWS-1)*(NUM_COLS-1)*6;
 	printf("loading plane\n");
 
-	float* plane_points = gen_plane_points(num_rows, num_cols, min_offset, max_offset);
+	float* plane_points = gen_plane_points(NUM_ROWS, NUM_COLS);
 	float* plane_normals = gen_plane_normals(plane_points, plane.point_count);
 	float plane_tex_coords[] = {};
 
@@ -197,11 +193,9 @@ Mesh load_plane_mesh(){
 
 Mesh load_plane_mesh_given_points(float* plane_points){
 	Mesh plane;
-	int num_rows = 100;
-	int num_cols = 100;
 	float min_offset = -1.0;
 	float max_offset = 1.0;
-	plane.point_count = (num_rows-1)*(num_cols-1)*6;
+	plane.point_count = (NUM_ROWS-1)*(NUM_COLS-1)*6;
 	//printf("loading plane\n");
 
 	float* plane_normals = gen_plane_normals(plane_points, plane.point_count);

@@ -4,7 +4,7 @@
 #include "mesh.h"
 #include "maths_funcs.h"
 
-vec3 cam_pos = vec3(-25.0,-2.0,-5.0);
+vec3 cam_pos = vec3(-20.0,-20.0,-5.0);
 
 int main()
 {
@@ -22,7 +22,7 @@ int main()
 
     // GOAL #4: draw a plane with points with sorta randomised offsets
     // GOAL #5: make the plane kinda wobbly
-    float* plane_points = gen_plane_points(100, 100, -1, 1);
+    float* plane_points = gen_plane_points(NUM_ROWS, NUM_COLS);
     Mesh plane = load_plane_mesh_given_points(plane_points);
     //Mesh plane = load_plane_mesh();
 
@@ -40,7 +40,7 @@ int main()
 
         glUseProgram (basic_shadermeta.program);
         glBindVertexArray (plane.vao);
-        glUniformMatrix4fv (basic_shadermeta.M_loc, 1, GL_FALSE, identity_mat4().m);
+        glUniformMatrix4fv (basic_shadermeta.M_loc, 1, GL_FALSE, rotate_x_deg(identity_mat4(), 90).m);
         glUniformMatrix4fv (basic_shadermeta.V_loc, 1, GL_FALSE, translate(identity_mat4(), cam_pos).m);
         glUniformMatrix4fv (basic_shadermeta.P_loc, 1, GL_FALSE, perspective(90, 800.0/600.0, 0.01, 1000.0).m);
         glDrawArrays (GL_TRIANGLES, 0, plane.point_count);
@@ -48,14 +48,14 @@ int main()
         // GOAL #2: make this not crash (COMPLETE)
         if (glfwGetKey (g_gfx.window, GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose (g_gfx.window, GL_TRUE);
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_W))
-            cam_pos.v[1] -= 0.1;
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_S))
-            cam_pos.v[1] += 0.1;
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_A))
-            cam_pos.v[0] += 0.1;
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_D))
-            cam_pos.v[0] -= 0.1;
+        // if (glfwGetKey (g_gfx.window, GLFW_KEY_W))
+        //     cam_pos.v[1] -= 0.1;
+        // if (glfwGetKey (g_gfx.window, GLFW_KEY_S))
+        //     cam_pos.v[1] += 0.1;
+        // if (glfwGetKey (g_gfx.window, GLFW_KEY_A))
+        //     cam_pos.v[0] += 0.1;
+        // if (glfwGetKey (g_gfx.window, GLFW_KEY_D))
+        //     cam_pos.v[0] -= 0.1;
 
         glfwPollEvents();
         // I swear to god if this is why
