@@ -234,7 +234,6 @@ Mesh load_plane_mesh_given_points(float* plane_points){
 
 float* displace_points(float* points, int num_points){
 	for (int i = 0; i < 3*num_points; i+=3)
-		if (points[i + 1] < 2.0)
-			points[i + 1] += (10.0-points[i + 1])/1000.0;
+		points[i + 1] += sin(time(NULL)+(points[i]*points[i+2]))/100.0;
 	return points;
 }

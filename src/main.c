@@ -4,7 +4,7 @@
 #include "mesh.h"
 #include "maths_funcs.h"
 
-vec3 cam_pos = vec3(-4.0,-2.0,-5.0);
+vec3 cam_pos = vec3(-25.0,-2.0,-5.0);
 
 int main()
 {
