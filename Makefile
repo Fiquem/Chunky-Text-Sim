@@ -4,7 +4,7 @@ SRC = src/main.c \
 	src/shader.c \
 	src/gl_utils.c \
 	src/mesh.c
-TARGET = main
+TARGET = first_rpoj
 CFLAGS = -g
 INC_DIR = -I ./lib/include
 LIB_DIR = -L ./lib/
