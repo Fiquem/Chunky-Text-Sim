@@ -65,3 +65,5 @@ Shit I had issues with:
 
 13. Why is my plane displacement thing only working on some of the rows?? FIXED
 	- I did maths wrong
+
+14. Sooooo I kinda did the thing I meant to do, which is like a background for a menu, so I guess expand this into a menu?
