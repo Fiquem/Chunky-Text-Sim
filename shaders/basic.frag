@@ -8,7 +8,7 @@ uniform mat4 V;
 
 out vec4 frag_colour;
 
-float b = 0.01;
+float b = 0.005;
 float c = 0.01;
 
 vec3 applyFog( in vec3  rgb,      // original color of the pixel
@@ -16,24 +16,25 @@ vec3 applyFog( in vec3  rgb,      // original color of the pixel
                in vec3  rayOri,   // camera position
                in vec3  rayDir )  // camera to point vector
 {
-    float fogAmount = c * exp(-rayOri.y*b) * (1.0-exp( -distance*rayDir.y*b ))/rayDir.y;
-    vec3  fogColor  = vec3(0.5,0.6,0.7);
+    float fogAmount = clamp (c * exp(-rayOri.z*b) * (1.0-exp( -distance*rayDir.z*b ))/rayDir.z, 0.0, 1.0) * 0.5;
+    //vec3  fogColor  = vec3(0.5,0.6,0.7);
+    vec3 fogColor = vec3(0.047, 0.067, 0.224);
     return mix( rgb, fogColor, fogAmount );
 }
 
 void main () {
 	// ambient colour
 	vec3 l_a = vec3 (0.8, 0.8, 0.8);
-	vec3 k_a = vec3 (0.902, 0.408, 0.573);
-	//vec3 k_a = vec3 (0.878, 0.89, 1.0);
+	//vec3 k_a = vec3 (0.902, 0.408, 0.573);
+	vec3 k_a = vec3 (0.878, 0.89, 1.0);
 	vec4 i_a = vec4 (l_a * k_a, 1.0);
 
 	vec3 renorm = normalize (n);
 
 	// diffuse
 	vec3 l_d = vec3 (1.0, 1.0, 1.0);
-	vec3 k_d = vec3 (0.902, 0.408, 0.573);
-	//vec3 k_d = vec3 (0.878, 0.89, 1.0);
+	//vec3 k_d = vec3 (0.902, 0.408, 0.573);
+	vec3 k_d = vec3 (0.878, 0.89, 1.0);
 	vec3 light_dir = (V * normalize (vec4 (10.0,10.0,10.0,0.0))).xyz;
 	vec4 i_d = vec4 (l_d * k_d * max (0.0, dot (light_dir, renorm)), 1.0);
 
