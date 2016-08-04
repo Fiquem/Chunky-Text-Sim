@@ -113,6 +113,10 @@ float* gen_plane_points(int rows, int cols){
 		plane_points[index + 17] = plane_points_quads_with_repetition[i + 8];
 		index += 18;
 	}
+
+	delete (plane_points_quads);
+	delete (plane_points_quads_with_repetition);
+
 	return plane_points;
 }
 
@@ -198,11 +202,7 @@ Mesh load_plane_mesh_given_points(float* plane_points){
 
 	float* plane_normals = gen_plane_normals(plane_points, plane.point_count);
 	float plane_tex_coords[] = {};
-
-	delete (&plane.vao);
-	delete (&plane.point_vbo);
-	delete (&plane.normal_vbo);
-
+	
 	glGenBuffers (1, &plane.point_vbo);
 	glBindBuffer (GL_ARRAY_BUFFER, plane.point_vbo);
 	glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 3 * plane.point_count, plane_points, GL_STATIC_DRAW);
@@ -223,6 +223,8 @@ Mesh load_plane_mesh_given_points(float* plane_points){
 	//glVertexAttribPointer (TEX_COORD, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glBindBuffer (GL_ARRAY_BUFFER, plane.normal_vbo);
 	glVertexAttribPointer (NORMAL, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
+	delete (plane_normals);
 
 	//printf("plane loaded\n");
 	return plane;
