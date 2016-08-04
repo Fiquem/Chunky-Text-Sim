@@ -67,3 +67,8 @@ Shit I had issues with:
 	- I did maths wrong
 
 14. Sooooo I kinda did the thing I meant to do, which is like a background for a menu, so I guess expand this into a menu?
+	- not yet, it's still crashing
+
+15. WHY STILL CRASHING
+	- out of memory?
+	- it's in the plane loading bit somewhere, commenting that (in draw loop) fixes it

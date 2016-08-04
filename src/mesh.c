@@ -193,13 +193,15 @@ Mesh load_plane_mesh(){
 
 Mesh load_plane_mesh_given_points(float* plane_points){
 	Mesh plane;
-	float min_offset = -1.0;
-	float max_offset = 1.0;
 	plane.point_count = (NUM_ROWS-1)*(NUM_COLS-1)*6;
 	//printf("loading plane\n");
 
 	float* plane_normals = gen_plane_normals(plane_points, plane.point_count);
 	float plane_tex_coords[] = {};
+
+	delete (&plane.vao);
+	delete (&plane.point_vbo);
+	delete (&plane.normal_vbo);
 
 	glGenBuffers (1, &plane.point_vbo);
 	glBindBuffer (GL_ARRAY_BUFFER, plane.point_vbo);
