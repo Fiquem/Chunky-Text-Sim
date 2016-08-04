@@ -69,6 +69,9 @@ Shit I had issues with:
 14. Sooooo I kinda did the thing I meant to do, which is like a background for a menu, so I guess expand this into a menu?
 	- not yet, it's still crashing
 
-15. WHY STILL CRASHING
+15. WHY STILL CRASHING FIXEDO?
 	- out of memory?
 	- it's in the plane loading bit somewhere, commenting that (in draw loop) fixes it
+	- deleted stuff and fixed mb? we'll see
+
+16. fog or summat?
