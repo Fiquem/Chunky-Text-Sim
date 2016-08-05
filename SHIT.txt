@@ -66,13 +66,21 @@ Shit I had issues with:
 13. Why is my plane displacement thing only working on some of the rows?? FIXED
 	- I did maths wrong
 
-14. Sooooo I kinda did the thing I meant to do, which is like a background for a menu, so I guess expand this into a menu?
-	- not yet, it's still crashing
-
 15. WHY STILL CRASHING FIXEDO?
 	- out of memory?
 	- it's in the plane loading bit somewhere, commenting that (in draw loop) fixes it
 	- deleted stuff and fixed mb? we'll see
 
-16. fog or summat?
+16. fog or summat? DONE
 	- fog ye
+	- done ye stole from here and Anton told me to clamp tyty
+	- http://www.iquilezles.org/www/articles/fog/fog.htm
+
+
+
+14. Sooooo I kinda did the thing I meant to do, which is like a background for a menu, so I guess expand this into a menu?
+	- not yet, it's still crashing
+	- put text on screen?
+
+17. BLUER
+	- blur, it's blue enough

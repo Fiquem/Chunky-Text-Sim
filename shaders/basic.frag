@@ -8,8 +8,8 @@ uniform mat4 V;
 
 out vec4 frag_colour;
 
-float b = 0.005;
-float c = 0.01;
+float b = 0.02;
+float c = 0.1;
 
 vec3 applyFog( in vec3  rgb,      // original color of the pixel
                in float distance, // camera to point distance

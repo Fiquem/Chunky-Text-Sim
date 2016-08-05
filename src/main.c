@@ -4,7 +4,8 @@
 #include "mesh.h"
 #include "maths_funcs.h"
 
-vec3 cam_pos = vec3(-50.0,-30.0,50.0);
+vec3 cam_pos = vec3(-50.0,-10.0,50.0);
+vec3 cam_rot = vec3(90.0,0.0,0.0);
 
 int main()
 {
@@ -41,7 +42,7 @@ int main()
         glUseProgram (basic_shadermeta.program);
         glBindVertexArray (plane.vao);
         glUniformMatrix4fv (basic_shadermeta.M_loc, 1, GL_FALSE, identity_mat4().m);
-        glUniformMatrix4fv (basic_shadermeta.V_loc, 1, GL_FALSE, rotate_x_deg(translate(identity_mat4(), cam_pos), 90).m);
+        glUniformMatrix4fv (basic_shadermeta.V_loc, 1, GL_FALSE, rotate_x_deg(rotate_y_deg(translate(identity_mat4(), cam_pos), cam_rot.v[1]), cam_rot.v[0]).m);
         glUniformMatrix4fv (basic_shadermeta.P_loc, 1, GL_FALSE, perspective(90, 800.0/600.0, 0.01, 1000.0).m);
         glDrawArrays (GL_TRIANGLES, 0, plane.point_count);
 
@@ -60,6 +61,14 @@ int main()
         //     cam_pos.v[1] += 0.1;
         // if (glfwGetKey (g_gfx.window, GLFW_KEY_E))
         //     cam_pos.v[1] -= 0.1;
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_UP))
+            if(cam_rot.v[0] < 110) cam_rot.v[0] += 1;
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_DOWN))
+            if(cam_rot.v[0] > 70) cam_rot.v[0] -= 1;
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_LEFT))
+            cam_rot.v[1] += 1;
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_RIGHT))
+            cam_rot.v[1] -= 1;
 
         glfwPollEvents();
         // I swear to god if this is why
