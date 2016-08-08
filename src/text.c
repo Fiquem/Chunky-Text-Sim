@@ -61,7 +61,7 @@ Font load_font (const char* font_img, const char* font_meta){
 
 void draw_text (const char* text, Font f, float x, float y){
 	glUseProgram (f.shader.program);
-	glEnable (GL_BLEND);
+	//glEnable (GL_BLEND);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(text_vao);
@@ -74,16 +74,28 @@ void draw_text (const char* text, Font f, float x, float y){
 
         GLfloat w = (1024/16);
         GLfloat h = (1024/16);
+
+        printf("%c %i - %f %f %f %f\n", text[i], (int)text[i], xpos, ypos, w, h);
+
         // Update VBO for each character
         GLfloat vertices[6][4] = {
-            { xpos,     ypos + h,   0.0, 0.0 },            
+            { xpos,     ypos + h,   0.0, 0.0 },
             { xpos,     ypos,       0.0, 1.0 },
             { xpos + w, ypos,       1.0, 1.0 },
 
             { xpos,     ypos + h,   0.0, 0.0 },
             { xpos + w, ypos,       1.0, 1.0 },
-            { xpos + w, ypos + h,   1.0, 0.0 }           
+            { xpos + w, ypos + h,   1.0, 0.0 }
         };
+        // GLfloat vertices[6][4] = {
+        //     { xpos,     0.0, ypos + h, 0.0 },            
+        //     { xpos,     0.0, ypos,     1.0 },
+        //     { xpos + w, 1.0, ypos,     1.0 },
+
+        //     { xpos,     0.0, ypos + h, 0.0 },
+        //     { xpos + w, 1.0, ypos,     1.0 },
+        //     { xpos + w, 1.0, ypos + h, 0.0 }           
+        // };
         // Render glyph texture over quad
         glBindTexture(GL_TEXTURE_2D, f.texture);
         // Update content of VBO memory
@@ -95,5 +107,5 @@ void draw_text (const char* text, Font f, float x, float y){
 
 		i++;
 	}
-	glDisable (GL_BLEND);
+	//glDisable (GL_BLEND);
 }
