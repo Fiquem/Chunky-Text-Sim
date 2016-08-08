@@ -95,4 +95,5 @@ void draw_text (const char* text, Font f, float x, float y){
 
 		i++;
 	}
+	glDisable (GL_BLEND);
 }
