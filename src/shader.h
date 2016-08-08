@@ -14,6 +14,7 @@ typedef struct Shader_Meta{
 	GLuint program;
 	GLuint vertex_shader, fragment_shader;
 	GLuint M_loc, V_loc, P_loc;
+	GLuint colour_loc;
 }Shader_Meta;
 
 bool create_program_from_files(const char* vertex_shader, const char* fragment_shader, Shader_Meta* Shader_Meta);

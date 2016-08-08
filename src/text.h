@@ -1,6 +1,7 @@
 #pragma once
 
 #include "gl_utils.h"
+#include "shader.h"
 
 #define DEFAULT_FONT_SIZE 14
 
@@ -13,7 +14,7 @@ typedef struct Character{
 typedef struct Font{
 	// uhhhhhhhhhhhhhhhhhjjhhhhhhhhhhhhh
 	GLuint texture;
-	GLuint shader;
+	Shader_Meta shader;
 	int size;
 	Character* chars;
 }Font;

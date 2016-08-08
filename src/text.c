@@ -1,7 +1,7 @@
 #include "text.h"
-#include "shader.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#include "maths_funcs.h"
 
 Font load_font(const char* font_img, const char* font_meta){
 	Font f;
@@ -11,7 +11,7 @@ Font load_font(const char* font_img, const char* font_meta){
 	int x, y, n;
     unsigned char* image = stbi_load(font_img, &x, &y, &n, 0);
 
-	glGenTextures (1, &(f.texture));
+	glGenTextures (1, &f.texture);
 	glActiveTexture (f.texture);
 	glBindTexture (GL_TEXTURE_2D, f.texture);
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
@@ -21,6 +21,9 @@ Font load_font(const char* font_img, const char* font_meta){
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	// load font shader
+	create_program_from_files ("text.vert", "text.frag", &f.shader);
+	glUniformMatrix4fv (f.shader.P_loc, 1, GL_FALSE, ortho(0.0, 800.0, 0.0, 600.0, 0.05, 100.0).m);
+	glUniform3f (f.shader.colour_loc, 0.0,0.0,0.0);
 
 	// will figure out size later. don't really care rn.
 
@@ -30,8 +33,8 @@ Font load_font(const char* font_img, const char* font_meta){
 	int cols = 16;
 	int char_size_px = 1024/16;
 	f.chars = (Character*)malloc(sizeof(Character)*256);
-	for (int i = 0; i < 16; i++)
-		for (int j = 0; j < 16; j++){
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++){
 			f.chars[(i*cols) + j].xpos = char_size_px * j;
 			f.chars[(i*cols) + j].ypos = char_size_px * i;
 			f.chars[(i*cols) + j].width = char_size_px;

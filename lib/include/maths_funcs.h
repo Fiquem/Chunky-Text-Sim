@@ -64,6 +64,7 @@ mat4 scale (const mat4& m, const vec3& v);
 // camera functions
 mat4 look_at (const vec3& cam_pos, vec3 targ_pos, const vec3& up);
 mat4 perspective (float fovy, float aspect, float near, float far);
+mat4 ortho (float left, float right, float bottom, float top, float near, float far);
 // quaternion functions
 versor quat_from_axis_rad (float radians, float x, float y, float z);
 versor quat_from_axis_deg (float degrees, float x, float y, float z);
@@ -775,6 +776,20 @@ inline mat4 perspective (float fovy, float aspect, float near, float far) {
 	m.m[11] = -1.0f;
 	return m;
 }
+
+// returns a orthographic function mimicking the opengl projection style.
+inline mat4 ortho (float left, float right, float bottom, float top, float near, float far) {
+	mat4 m = zero_mat4 (); // make sure bottom-right corner is zero
+	m.m[0] = 2.0/(right-left);
+	m.m[5] = 2.0/(top-bottom);
+	m.m[10] = -2.0/(far-near);
+	m.m[15] = 1.0; // bno
+	m.m[12] = -(right+left)/(right-left);
+	m.m[13] = -(top+bottom)/(top-bottom);
+	m.m[14] = -(far+near)/(far-near);
+	return m;
+}
+
 /*----------------------------HAMILTON IN DA HOUSE!---------------------------*/
 inline versor quat_from_axis_rad (float radians, float x, float y, float z) {
 	versor result;

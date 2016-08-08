@@ -86,6 +86,7 @@ bool create_program_from_files(const char* vertex_shader, const char* fragment_s
 		Shader_Meta->M_loc = glGetUniformLocation(Shader_Meta->program, "M");
 		Shader_Meta->V_loc = glGetUniformLocation(Shader_Meta->program, "V");
 		Shader_Meta->P_loc = glGetUniformLocation(Shader_Meta->program, "P");
+		Shader_Meta->colour_loc = glGetUniformLocation(Shader_Meta->program, "colour");
 	}
 	printf("Created shader program\n");
 	return true;
