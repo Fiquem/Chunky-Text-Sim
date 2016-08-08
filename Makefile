@@ -3,7 +3,8 @@ CC = g++
 SRC = src/main.c \
 	src/shader.c \
 	src/gl_utils.c \
-	src/mesh.c
+	src/mesh.c \
+	src/text.c
 TARGET = first_rpoj
 CFLAGS = -g
 INC_DIR = -I ./lib/include

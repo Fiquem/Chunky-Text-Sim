@@ -3,6 +3,7 @@
 #include "shader.h"
 #include "mesh.h"
 #include "maths_funcs.h"
+#include "text.h"
 
 vec3 cam_pos = vec3(-50.0,-10.0,50.0);
 vec3 cam_rot = vec3(90.0,0.0,0.0);
@@ -19,13 +20,16 @@ int main()
     Shader_Meta basic_shadermeta;
     create_program_from_files("basic.vert", "basic.frag", &basic_shadermeta);
 
-    Mesh cube = load_cube_mesh();
+    //Mesh cube = load_cube_mesh();
 
     // GOAL #4: draw a plane with points with sorta randomised offsets
     // GOAL #5: make the plane kinda wobbly
     float* plane_points = gen_plane_points(NUM_ROWS, NUM_COLS);
     Mesh plane = load_plane_mesh_given_points(plane_points);
     //Mesh plane = load_plane_mesh();
+
+    // GOAL # I LOST COUNT. 18?: TEXT
+    Font test = load_font("font/testfont.png", "font/testfont.meta");
 
     // draw loop
     double prev = glfwGetTime();
