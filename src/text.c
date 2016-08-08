@@ -3,7 +3,9 @@
 #include "stb_image.h"
 #include "maths_funcs.h"
 
-Font load_font(const char* font_img, const char* font_meta){
+GLuint text_vao, text_vbo;
+
+Font load_font (const char* font_img, const char* font_meta){
 	Font f;
 	f.size = DEFAULT_FONT_SIZE;
 
@@ -22,8 +24,20 @@ Font load_font(const char* font_img, const char* font_meta){
 
 	// load font shader
 	create_program_from_files ("text.vert", "text.frag", &f.shader);
+	glUseProgram (f.shader.program);
 	glUniformMatrix4fv (f.shader.P_loc, 1, GL_FALSE, ortho(0.0, 800.0, 0.0, 600.0, 0.05, 100.0).m);
 	glUniform3f (f.shader.colour_loc, 0.0,0.0,0.0);
+
+	// jus copied I@ll do better later so tired now
+	glGenVertexArrays(1, &text_vao);
+	glGenBuffers(1, &text_vbo);
+	glBindVertexArray(text_vao);
+	glBindBuffer(GL_ARRAY_BUFFER, text_vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);     
 
 	// will figure out size later. don't really care rn.
 
@@ -43,4 +57,42 @@ Font load_font(const char* font_img, const char* font_meta){
 		}
 
 	return f;
+}
+
+void draw_text (const char* text, Font f, float x, float y){
+	glUseProgram (f.shader.program);
+	glEnable (GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glActiveTexture(GL_TEXTURE0);
+	glBindVertexArray(text_vao);
+
+	int i = 0;
+	while(text[i] != '\0'){
+
+        GLfloat xpos = x + (((int)text[i] - (int)' ')%16)*(1024/16); // tex is 16*16, first char is space, so subtract ' '
+        GLfloat ypos = y - (((int)text[i] - (int)' ')/16)*(1024/16);
+
+        GLfloat w = (1024/16);
+        GLfloat h = (1024/16);
+        // Update VBO for each character
+        GLfloat vertices[6][4] = {
+            { xpos,     ypos + h,   0.0, 0.0 },            
+            { xpos,     ypos,       0.0, 1.0 },
+            { xpos + w, ypos,       1.0, 1.0 },
+
+            { xpos,     ypos + h,   0.0, 0.0 },
+            { xpos + w, ypos,       1.0, 1.0 },
+            { xpos + w, ypos + h,   1.0, 0.0 }           
+        };
+        // Render glyph texture over quad
+        glBindTexture(GL_TEXTURE_2D, f.texture);
+        // Update content of VBO memory
+        glBindBuffer(GL_ARRAY_BUFFER, text_vbo);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); 
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        // Render quad
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+		i++;
+	}
 }

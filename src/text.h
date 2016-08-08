@@ -20,3 +20,4 @@ typedef struct Font{
 }Font;
 
 Font load_font(const char* font_img, const char* font_meta);
+void draw_text(const char* text, Font f, float x, float y);

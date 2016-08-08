@@ -54,6 +54,9 @@ int main()
         glUniformMatrix4fv (basic_shadermeta.P_loc, 1, GL_FALSE, perspective(90, 800.0/600.0, 0.01, 1000.0).m);
         glDrawArrays (GL_TRIANGLES, 0, plane.point_count);
 
+        const char* test_string = "ummh\0";
+        draw_text (test_string, test, 0.0, 0.0);
+
         // GOAL #2: make this not crash (COMPLETE)
         // will uncomment this when I add in forward and right vecs
         if (glfwGetKey (g_gfx.window, GLFW_KEY_ESCAPE))
