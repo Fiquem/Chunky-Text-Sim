@@ -69,13 +69,13 @@ void draw_text (const char* text, Font f, float x, float y){
 	int i = 0;
 	while(text[i] != '\0'){
 
-        GLfloat xpos = x + (((int)text[i] - (int)' ')%16)*(1024/16); // tex is 16*16, first char is space, so subtract ' '
-        GLfloat ypos = y - (((int)text[i] - (int)' ')/16)*(1024/16);
+        GLfloat xpos = x + ((text[i] - ' ')%16); // tex is 16*16, first char is space, so subtract ' '
+        GLfloat ypos = y + ((text[i] - ' ')/16);
 
-        GLfloat w = (1024/16);
-        GLfloat h = (1024/16);
+        GLfloat w = 64;
+        GLfloat h = 64;
 
-        printf("%c %i - %f %f %f %f\n", text[i], (int)text[i], xpos, ypos, w, h);
+        //printf("%c %i - %f %f %f %f\n", text[i], (int)text[i], xpos, ypos, w, h);
 
         // Update VBO for each character
         GLfloat vertices[6][4] = {
@@ -87,6 +87,7 @@ void draw_text (const char* text, Font f, float x, float y){
             { xpos + w, ypos,       1.0, 1.0 },
             { xpos + w, ypos + h,   1.0, 0.0 }
         };
+
         // GLfloat vertices[6][4] = {
         //     { xpos,     0.0, ypos + h, 0.0 },            
         //     { xpos,     0.0, ypos,     1.0 },
@@ -96,14 +97,27 @@ void draw_text (const char* text, Font f, float x, float y){
         //     { xpos + w, 1.0, ypos,     1.0 },
         //     { xpos + w, 1.0, ypos + h, 0.0 }           
         // };
+        // GLfloat vertices[6][4] = {
+        //     { 0.0, 1.0, 0.0, 0.0 },
+        //     { 0.0, 0.0, 0.0, 1.0 },
+        //     { 1.0, 0.0, 1.0, 1.0 },
+
+        //     { 0.0, 1.0, 0.0, 0.0 },
+        //     { 1.0, 0.0, 1.0, 1.0 },
+        //     { 1.0, 1.0, 1.0, 0.0 }
+        // };
+
         // Render glyph texture over quad
         glBindTexture(GL_TEXTURE_2D, f.texture);
         // Update content of VBO memory
         glBindBuffer(GL_ARRAY_BUFFER, text_vbo);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); 
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 2 * 6, vertices, GL_STATIC_DRAW);
+        glVertexAttribPointer (TEX_COORD, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+        // glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); 
         // Render quad
         glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        x += 64;
 
 		i++;
 	}

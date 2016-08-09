@@ -55,7 +55,7 @@ int main()
         glDrawArrays (GL_TRIANGLES, 0, plane.point_count);
 
         const char* test_string = "ummh\0";
-        draw_text (test_string, test, 50.0, 50.0);
+        draw_text (test_string, test, 0.0, 0.0);
 
         // GOAL #2: make this not crash (COMPLETE)
         // will uncomment this when I add in forward and right vecs

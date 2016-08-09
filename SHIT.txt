@@ -96,3 +96,4 @@ Shit I had issues with:
 	- where do I begin?
 	- wanna make a text or font meta struct but don't know what to doooooo
 	- used http://learnopengl.com/#!In-Practice/Text-Rendering
+	- I did it but I can't find my text. guess it's time to sit down and understand all this code I stolke
