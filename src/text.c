@@ -25,7 +25,7 @@ Font load_font (const char* font_img, const char* font_meta){
 	// load font shader
 	create_program_from_files ("text.vert", "text.frag", &f.shader);
 	glUseProgram (f.shader.program);
-	// glUniformMatrix4fv (f.shader.P_loc, 1, GL_FALSE, perspective(90, 800.0/600.0, 0.01, 1000.0).m);
+	glUniformMatrix4fv (f.shader.P_loc, 1, GL_FALSE, ortho(0.0, 800.0, 0.0, 600.0, 0.05, 100.0).m);
 	// glUniform3f (f.shader.colour_loc, 0.0,0.0,0.0);
 
 	// jus copied I@ll do better later so tired now
@@ -50,66 +50,80 @@ Font load_font (const char* font_img, const char* font_meta){
 	// // will figure out size later. don't really care rn.
 
 	// // load character info from meta
-	// // NO META FOR THE MOMENT
-	// int rows = 16;
-	// int cols = 16;
-	// int char_size_px = 1024/16;
-	// f.chars = (Character*)malloc(sizeof(Character)*256);
-	// for (int i = 0; i < rows; i++)
-	// 	for (int j = 0; j < cols; j++){
-	// 		f.chars[(i*cols) + j].xpos = char_size_px * j;
-	// 		f.chars[(i*cols) + j].ypos = char_size_px * i;
-	// 		f.chars[(i*cols) + j].width = char_size_px;
-	// 		f.chars[(i*cols) + j].height = char_size_px;
-	// 		f.chars[(i*cols) + j].buffer = 0;
-	// 	}
+	// NO META FOR THE MOMENT
+	int rows = 16;
+	int cols = 16;
+	int char_size_px = 1024/16;
+	f.chars = (Character*)malloc(sizeof(Character)*256);
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < cols; j++){
+			f.chars[(i*cols) + j].xpos = char_size_px * j;
+			f.chars[(i*cols) + j].ypos = (char_size_px * i);
+			f.chars[(i*cols) + j].width = char_size_px;
+			f.chars[(i*cols) + j].height = char_size_px;
+			f.chars[(i*cols) + j].buffer = 0;
+		}
 
 	return f;
 }
 
 void draw_text (const char* text, Font f, float x, float y){
 	glUseProgram (f.shader.program);
-	//glEnable (GL_BLEND);
+	glEnable (GL_BLEND);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(text_vao);
-	glUniformMatrix4fv (f.shader.P_loc, 1, GL_FALSE, ortho(0.0, 800.0, 0.0, 600.0, 0.05, 100.0).m);
-    //glDrawArrays(GL_TRIANGLES, 0, 6);
 
 
     // Render glyph texture over quad
     glBindTexture(GL_TEXTURE_2D, f.texture);
 
+    int tex_width = 1024/4;
+    int tex_height = 1024/4;
+
 	int i = 0;
 	while(text[i] != '\0'){
+		Character c = f.chars[text[i] - ' '];
 
-        GLfloat xpos = x + ((text[i] - ' ')%16); // tex is 16*16, first char is space, so subtract ' '
-        GLfloat ypos = y + ((text[i] - ' ')/16);
+        GLfloat xpos = (c.xpos%16);
+        GLfloat ypos = (c.ypos/16);
 
-        GLfloat w = 64;
-        GLfloat h = 64;
+        GLfloat w = c.width;
+        GLfloat h = c.height;
 
         //printf("%c %i - %f %f %f %f\n", text[i], (int)text[i], xpos, ypos, w, h);
 
         // Update VBO for each character
 	    GLfloat vertices[12] = {
-	         0.0,   0.0,
-	        10.0,   0.0,
-	         0.0,  10.0,
+	        x,     y,
+	        x + w, y,
+	        x,     y + h,
 
-	         0.0,  10.0,
-	        10.0,   0.0,
-	        10.0,  10.0
+	        x,     y + h,
+	        x + w, y,
+	        x + w, y + h
 	    };
+	    // GLfloat tex_coords[12] = {
+	    //     xpos/tex_width,       ypos/tex_height,
+	    //     (xpos + w)/tex_width, ypos/tex_height,
+	    //     xpos/tex_width,       (ypos + h)/tex_height,
+
+	    //     xpos/tex_width,       (ypos + h)/tex_height,
+	    //     (xpos + w)/tex_width, ypos/tex_height,
+	    //     (xpos + w)/tex_width, (ypos + h)/tex_height
+	    // };
 	    GLfloat tex_coords[12] = {
-	        0.0, 0.0,
-	        0.0, 1.0,
-	        1.0, 1.0,
+	        xpos, ypos - h,
+	        xpos + w, ypos - h,
+	        xpos, ypos,
 
-	        0.0, 0.0,
-	        1.0, 1.0,
-	        1.0, 0.0
+	        xpos, ypos,
+	        xpos + w, ypos - h,
+	        xpos + w, ypos
 	    };
+
+	    for (int j = 0; j < 12; j++)
+	    	tex_coords[j] /= 1024.0;
 
         // Update content of VBO memory
         glBindBuffer(GL_ARRAY_BUFFER, text_point_vbo);

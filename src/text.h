@@ -6,9 +6,9 @@
 #define DEFAULT_FONT_SIZE 14
 
 typedef struct Character{
-	float xpos, ypos;
-	float width, height;
-	float buffer;
+	int xpos, ypos;
+	int width, height;
+	int buffer;
 }Character;
 
 typedef struct Font{
