@@ -57,8 +57,8 @@ Font load_font (const char* font_img, const char* font_meta){
 	f.chars = (Character*)malloc(sizeof(Character)*256);
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < cols; j++){
-			f.chars[(i*cols) + j].xpos = char_size_px * j;
-			f.chars[(i*cols) + j].ypos = (char_size_px * i);
+			f.chars[(i*cols) + j].xpos = j;
+			f.chars[(i*cols) + j].ypos = rows - i;
 			f.chars[(i*cols) + j].width = char_size_px;
 			f.chars[(i*cols) + j].height = char_size_px;
 			f.chars[(i*cols) + j].buffer = 0;
@@ -78,20 +78,17 @@ void draw_text (const char* text, Font f, float x, float y){
     // Render glyph texture over quad
     glBindTexture(GL_TEXTURE_2D, f.texture);
 
-    int tex_width = 1024/4;
-    int tex_height = 1024/4;
-
 	int i = 0;
 	while(text[i] != '\0'){
 		Character c = f.chars[text[i] - ' '];
 
-        GLfloat xpos = (c.xpos%16);
-        GLfloat ypos = (c.ypos/16);
+        GLfloat xpos = c.xpos * 64;
+        GLfloat ypos = c.ypos * 64;
 
         GLfloat w = c.width;
         GLfloat h = c.height;
 
-        //printf("%c %i - %f %f %f %f\n", text[i], (int)text[i], xpos, ypos, w, h);
+        //printf("%c - %f %f %f %f\n", text[i], xpos, ypos, w, h);
 
         // Update VBO for each character
 	    GLfloat vertices[12] = {
