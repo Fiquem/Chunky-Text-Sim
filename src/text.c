@@ -25,35 +25,16 @@ Font load_font (const char* font_img, const char* font_meta){
 	// load font shader
 	create_program_from_files ("text.vert", "text.frag", &f.shader);
 	glUseProgram (f.shader.program);
-	glUniformMatrix4fv (f.shader.P_loc, 1, GL_FALSE, perspective(90, 800.0/600.0, 0.01, 1000.0).m);
-	glUniform3f (f.shader.colour_loc, 0.0,0.0,0.0);
-
-    GLfloat vertices[12] = {
-          0.0,    0.0,
-        100.0,    0.0,
-          0.0,  100.0,
-
-          0.0,  100.0,
-        100.0,    0.0,
-        100.0,  100.0
-    };
-    GLfloat tex_coords[12] = {
-        0.0, 0.0,
-        0.0, 1.0,
-        1.0, 1.0,
-
-        0.0, 0.0,
-        1.0, 1.0,
-        1.0, 0.0
-    };
+	// glUniformMatrix4fv (f.shader.P_loc, 1, GL_FALSE, perspective(90, 800.0/600.0, 0.01, 1000.0).m);
+	// glUniform3f (f.shader.colour_loc, 0.0,0.0,0.0);
 
 	// jus copied I@ll do better later so tired now
 	glGenBuffers(1, &text_point_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, text_point_vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, NULL, GL_STATIC_DRAW);
 	glGenBuffers(1, &text_tex_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, text_tex_vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, tex_coords, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, NULL, GL_STATIC_DRAW);
 
 	glGenVertexArrays(1, &text_vao);
 	glBindVertexArray(text_vao);
@@ -89,59 +70,58 @@ Font load_font (const char* font_img, const char* font_meta){
 void draw_text (const char* text, Font f, float x, float y){
 	glUseProgram (f.shader.program);
 	//glEnable (GL_BLEND);
-	//glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glActiveTexture(GL_TEXTURE0);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(text_vao);
 	glUniformMatrix4fv (f.shader.P_loc, 1, GL_FALSE, ortho(0.0, 800.0, 0.0, 600.0, 0.05, 100.0).m);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    //glDrawArrays(GL_TRIANGLES, 0, 6);
 
 
     // Render glyph texture over quad
- //    glBindTexture(GL_TEXTURE_2D, f.texture);
+    glBindTexture(GL_TEXTURE_2D, f.texture);
 
-	// int i = 0;
-	// while(text[i] != '\0'){
+	int i = 0;
+	while(text[i] != '\0'){
 
- //        GLfloat xpos = x + ((text[i] - ' ')%16); // tex is 16*16, first char is space, so subtract ' '
- //        GLfloat ypos = y + ((text[i] - ' ')/16);
+        GLfloat xpos = x + ((text[i] - ' ')%16); // tex is 16*16, first char is space, so subtract ' '
+        GLfloat ypos = y + ((text[i] - ' ')/16);
 
- //        GLfloat w = 64;
- //        GLfloat h = 64;
+        GLfloat w = 64;
+        GLfloat h = 64;
 
- //        //printf("%c %i - %f %f %f %f\n", text[i], (int)text[i], xpos, ypos, w, h);
+        //printf("%c %i - %f %f %f %f\n", text[i], (int)text[i], xpos, ypos, w, h);
 
- //        // Update VBO for each character
+        // Update VBO for each character
+	    GLfloat vertices[12] = {
+	         0.0,   0.0,
+	        10.0,   0.0,
+	         0.0,  10.0,
 
- //        GLfloat vertices[6][2] = {
- //            { x + 0.0, 0.0 },
- //            { x + w,   0.0 },
- //            { x + 0.0, h   },
+	         0.0,  10.0,
+	        10.0,   0.0,
+	        10.0,  10.0
+	    };
+	    GLfloat tex_coords[12] = {
+	        0.0, 0.0,
+	        0.0, 1.0,
+	        1.0, 1.0,
 
- //            { x + 0.0, h   },
- //            { x + w,   0.0 },
- //            { x + w,   h   }
- //        };
- //        GLfloat tex_coords[6][2] = {
- //            { 0.0, 0.0 },
- //            { 0.0, 1.0 },
- //            { 1.0, 1.0 },
+	        0.0, 0.0,
+	        1.0, 1.0,
+	        1.0, 0.0
+	    };
 
- //            { 0.0, 0.0 },
- //            { 1.0, 1.0 },
- //            { 1.0, 0.0 }
- //        };
+        // Update content of VBO memory
+        glBindBuffer(GL_ARRAY_BUFFER, text_point_vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, vertices, GL_DYNAMIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, text_tex_vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, tex_coords, GL_DYNAMIC_DRAW);
+        // Render quad
+        glDrawArrays(GL_TRIANGLES, 0, 6);
 
- //        // Update content of VBO memory
- //        // glBindBuffer(GL_ARRAY_BUFFER, text_point_vbo);
-	// 	// glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 2, vertices, GL_DYNAMIC_DRAW);
- //        // glBindBuffer(GL_ARRAY_BUFFER, text_tex_vbo);
-	// 	// glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 2, tex_coords, GL_DYNAMIC_DRAW);
- //        // Render quad
- //        glDrawArrays(GL_TRIANGLES, 0, 6);
+        x += 64;
 
- //        x += 64;
-
-	// 	i++;
-	// }
-	//glDisable (GL_BLEND);
+		i++;
+	}
+	glDisable (GL_BLEND);
 }
