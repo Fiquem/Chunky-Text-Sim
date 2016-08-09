@@ -100,3 +100,4 @@ Shit I had issues with:
 	- wtf is glbuffersubdata?
 	- DUMBY ME THIS TUT DOES DIFF TO HOW I DO
 	- I need 2 vbos and I need to deal with them differently
+	- STILL NOTHIONK

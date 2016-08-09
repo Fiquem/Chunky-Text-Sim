@@ -9,5 +9,5 @@ out vec2 t;
 
 void main(){
 	t = vt;
-	gl_Position = P * vec4(vp, 0.0, 1.0);
+	gl_Position = vec4(vp, 0.0, 1.0);
 }
