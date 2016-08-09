@@ -29,7 +29,8 @@ int main()
     //Mesh plane = load_plane_mesh();
 
     // GOAL # I LOST COUNT. 18?: TEXT
-    Font test = load_font("font/testfont.png", "font/testfont.meta");
+    Font test = load_font("font/debug.png", "font/testfont.meta");
+    const char* test_string = "ummh\0";
 
     // draw loop
     double prev = glfwGetTime();
@@ -54,7 +55,6 @@ int main()
         glUniformMatrix4fv (basic_shadermeta.P_loc, 1, GL_FALSE, perspective(90, 800.0/600.0, 0.01, 1000.0).m);
         glDrawArrays (GL_TRIANGLES, 0, plane.point_count);
 
-        const char* test_string = "ummh\0";
         draw_text (test_string, test, 0.0, 0.0);
 
         // GOAL #2: make this not crash (COMPLETE)

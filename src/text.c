@@ -74,6 +74,9 @@ void draw_text (const char* text, Font f, float x, float y){
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(text_vao);
 
+    // Render glyph texture over quad
+    glBindTexture(GL_TEXTURE_2D, f.texture);
+
 	int i = 0;
 	while(text[i] != '\0'){
 
@@ -86,14 +89,23 @@ void draw_text (const char* text, Font f, float x, float y){
         //printf("%c %i - %f %f %f %f\n", text[i], (int)text[i], xpos, ypos, w, h);
 
         // Update VBO for each character
-        GLfloat vertices[6][2] = {
-            { xpos,     ypos + h },
-            { xpos,     ypos     },
-            { xpos + w, ypos     },
+        // GLfloat vertices[6][2] = {
+        //     { xpos,     ypos + h },
+        //     { xpos,     ypos     },
+        //     { xpos + w, ypos     },
 
-            { xpos,     ypos + h },
-            { xpos + w, ypos,    },
-            { xpos + w, ypos + h }
+        //     { xpos,     ypos + h },
+        //     { xpos + w, ypos,    },
+        //     { xpos + w, ypos + h }
+        // };
+        GLfloat vertices[6][2] = {
+            { 0.0, 0.0 },
+            { 10.0, 0.0 },
+            { 0.0, 10.0 },
+
+            { 0.0, 10.0 },
+            { 10.0, 0.0 },
+            { 10.0, 10.0 }
         };
         GLfloat tex_coords[6][2] = {
             { 0.0, 0.0 },
@@ -124,13 +136,11 @@ void draw_text (const char* text, Font f, float x, float y){
         //     { 1.0, 1.0, 1.0, 0.0 }
         // };
 
-        // Render glyph texture over quad
-        glBindTexture(GL_TEXTURE_2D, f.texture);
         // Update content of VBO memory
         glBindBuffer(GL_ARRAY_BUFFER, text_point_vbo);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * 6 * 2, vertices); 
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 2, vertices, GL_DYNAMIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, text_tex_vbo);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * 6 * 2, tex_coords); 
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 2, tex_coords, GL_DYNAMIC_DRAW);
         // Render quad
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
