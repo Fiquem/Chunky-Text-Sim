@@ -26,7 +26,7 @@ Font load_font (const char* font_img, const char* font_meta){
 	create_program_from_files ("text.vert", "text.frag", &f.shader);
 	glUseProgram (f.shader.program);
 	glUniformMatrix4fv (f.shader.P_loc, 1, GL_FALSE, ortho(0.0, 800.0, 0.0, 600.0, 0.05, 100.0).m);
-	// glUniform3f (f.shader.colour_loc, 0.0,0.0,0.0);
+	glUniform3f (f.shader.colour_loc, 0.047, 0.067, 0.224);
 
 	// jus copied I@ll do better later so tired now
 	glGenBuffers(1, &text_point_vbo);
@@ -88,7 +88,7 @@ void draw_text (const char* text, Font f, float x, float y){
         GLfloat w = c.width;
         GLfloat h = c.height;
 
-        //printf("%c - %f %f %f %f\n", text[i], xpos, ypos, w, h);
+        //printf("%c %i - %f %f %f %f\n", text[i], text[i], xpos, ypos, w, h);
 
         // Update VBO for each character
 	    GLfloat vertices[12] = {
@@ -100,15 +100,6 @@ void draw_text (const char* text, Font f, float x, float y){
 	        x + w, y,
 	        x + w, y + h
 	    };
-	    // GLfloat tex_coords[12] = {
-	    //     xpos/tex_width,       ypos/tex_height,
-	    //     (xpos + w)/tex_width, ypos/tex_height,
-	    //     xpos/tex_width,       (ypos + h)/tex_height,
-
-	    //     xpos/tex_width,       (ypos + h)/tex_height,
-	    //     (xpos + w)/tex_width, ypos/tex_height,
-	    //     (xpos + w)/tex_width, (ypos + h)/tex_height
-	    // };
 	    GLfloat tex_coords[12] = {
 	        xpos, ypos - h,
 	        xpos + w, ypos - h,

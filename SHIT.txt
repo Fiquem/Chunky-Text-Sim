@@ -85,7 +85,7 @@ Shit I had issues with:
 17. BLUER
 	- blur, it's blue enough
 
-18. TEXT
+18. TEXT FIXED
 	- is this gonna be just a lot more plagiarmisn from Anton again I think it will be!
 	- TOMORROW
 	- that dodnt' happen but I guess I can start setting up shit
@@ -101,3 +101,5 @@ Shit I had issues with:
 	- DUMBY ME THIS TUT DOES DIFF TO HOW I DO
 	- I need 2 vbos and I need to deal with them differently
 	- STILL NOTHIONK
+	- problem # 1 text was behing the camera (ortho near planbe - 0.05, text at 0.0)
+	- fixed by moving text z = -1
