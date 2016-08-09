@@ -3,7 +3,7 @@
 #include "stb_image.h"
 #include "maths_funcs.h"
 
-GLuint text_vao, text_vbo;
+GLuint text_vao, text_point_vbo, text_tex_vbo;
 
 Font load_font (const char* font_img, const char* font_meta){
 	Font f;
@@ -29,14 +29,22 @@ Font load_font (const char* font_img, const char* font_meta){
 	glUniform3f (f.shader.colour_loc, 0.0,0.0,0.0);
 
 	// jus copied I@ll do better later so tired now
+	glGenBuffers(1, &text_point_vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, text_point_vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 2, NULL, GL_DYNAMIC_DRAW);
+	glGenBuffers(1, &text_tex_vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, text_tex_vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 2, NULL, GL_DYNAMIC_DRAW);
+
 	glGenVertexArrays(1, &text_vao);
-	glGenBuffers(1, &text_vbo);
 	glBindVertexArray(text_vao);
-	glBindBuffer(GL_ARRAY_BUFFER, text_vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glEnableVertexAttribArray (POINT);
+	glEnableVertexAttribArray (TEX_COORD);
+	glBindBuffer (GL_ARRAY_BUFFER, text_point_vbo);
+	glVertexAttribPointer (POINT, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), NULL);
+	glBindBuffer (GL_ARRAY_BUFFER, text_tex_vbo);
+	glVertexAttribPointer (TEX_COORD, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), NULL);
+
 	glBindVertexArray(0);     
 
 	// will figure out size later. don't really care rn.
@@ -78,14 +86,23 @@ void draw_text (const char* text, Font f, float x, float y){
         //printf("%c %i - %f %f %f %f\n", text[i], (int)text[i], xpos, ypos, w, h);
 
         // Update VBO for each character
-        GLfloat vertices[6][4] = {
-            { xpos,     ypos + h,   0.0, 0.0 },
-            { xpos,     ypos,       0.0, 1.0 },
-            { xpos + w, ypos,       1.0, 1.0 },
+        GLfloat vertices[6][2] = {
+            { xpos,     ypos + h },
+            { xpos,     ypos     },
+            { xpos + w, ypos     },
 
-            { xpos,     ypos + h,   0.0, 0.0 },
-            { xpos + w, ypos,       1.0, 1.0 },
-            { xpos + w, ypos + h,   1.0, 0.0 }
+            { xpos,     ypos + h },
+            { xpos + w, ypos,    },
+            { xpos + w, ypos + h }
+        };
+        GLfloat tex_coords[6][2] = {
+            { 0.0, 0.0 },
+            { 0.0, 1.0 },
+            { 1.0, 1.0 },
+
+            { 0.0, 0.0 },
+            { 1.0, 1.0 },
+            { 1.0, 0.0 }
         };
 
         // GLfloat vertices[6][4] = {
@@ -110,10 +127,10 @@ void draw_text (const char* text, Font f, float x, float y){
         // Render glyph texture over quad
         glBindTexture(GL_TEXTURE_2D, f.texture);
         // Update content of VBO memory
-        glBindBuffer(GL_ARRAY_BUFFER, text_vbo);
-		glBufferData (GL_ARRAY_BUFFER, sizeof(GLfloat) * 2 * 6, vertices, GL_STATIC_DRAW);
-        glVertexAttribPointer (TEX_COORD, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-        // glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); 
+        glBindBuffer(GL_ARRAY_BUFFER, text_point_vbo);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * 6 * 2, vertices); 
+        glBindBuffer(GL_ARRAY_BUFFER, text_tex_vbo);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * 6 * 2, tex_coords); 
         // Render quad
         glDrawArrays(GL_TRIANGLES, 0, 6);
 

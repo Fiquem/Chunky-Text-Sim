@@ -97,3 +97,6 @@ Shit I had issues with:
 	- wanna make a text or font meta struct but don't know what to doooooo
 	- used http://learnopengl.com/#!In-Practice/Text-Rendering
 	- I did it but I can't find my text. guess it's time to sit down and understand all this code I stolke
+	- wtf is glbuffersubdata?
+	- DUMBY ME THIS TUT DOES DIFF TO HOW I DO
+	- I need 2 vbos and I need to deal with them differently
