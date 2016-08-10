@@ -10,7 +10,7 @@ Font load_font (const char* font_img, const char* font_meta){
 	f.size = DEFAULT_FONT_SIZE;
 
 	// load font tex
-	int x, y, n;
+	int x = 1024, y = 1024, n = 4;
     unsigned char* image = stbi_load(font_img, &x, &y, &n, 0);
 
 	glGenTextures (1, &f.texture);
@@ -100,18 +100,30 @@ void draw_text (const char* text, Font f, float x, float y){
 	        x + w, y,
 	        x + w, y + h
 	    };
-	    GLfloat tex_coords[12] = {
-	        xpos, ypos - h,
-	        xpos + w, ypos - h,
-	        xpos, ypos,
+	    // GLfloat tex_coords[12] = {
+	    //     xpos, ypos - h,
+	    //     xpos + w, ypos - h,
+	    //     xpos, ypos,
 
-	        xpos, ypos,
-	        xpos + w, ypos - h,
-	        xpos + w, ypos
+	    //     xpos, ypos,
+	    //     xpos + w, ypos - h,
+	    //     xpos + w, ypos
+	    // };
+	    GLfloat tex_coords[12] = {
+	        0.0, 0.0,
+	        1.0, 0.0,
+	        0.0, 1.0,
+
+	        0.0, 1.0,
+	        1.0, 0.0,
+	        1.0, 1.0
 	    };
 
 	    for (int j = 0; j < 12; j++)
-	    	tex_coords[j] /= 1024.0;
+	    {
+	    	//tex_coords[j] /= 1024.0;
+	    	vertices[j] *= 10.0;
+	    }
 
         // Update content of VBO memory
         glBindBuffer(GL_ARRAY_BUFFER, text_point_vbo);

@@ -103,3 +103,6 @@ Shit I had issues with:
 	- STILL NOTHIONK
 	- problem # 1 text was behing the camera (ortho near planbe - 0.05, text at 0.0)
 	- fixed by moving text z = -1
+
+19. Why my text chunky?
+	- look at it, it's chunky
