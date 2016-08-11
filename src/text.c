@@ -10,22 +10,23 @@ Font load_font (const char* font_img, const char* font_meta){
 	f.size = DEFAULT_FONT_SIZE;
 
 	// load font tex
-	int x = 1024, y = 1024, n = 4;
+	int x, y, n;
     unsigned char* image = stbi_load(font_img, &x, &y, &n, 0);
 
+	glActiveTexture(GL_TEXTURE0);
 	glGenTextures (1, &f.texture);
 	glActiveTexture (f.texture);
 	glBindTexture (GL_TEXTURE_2D, f.texture);
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_LINEAR);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_LINEAR);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	// load font shader
 	create_program_from_files ("text.vert", "text.frag", &f.shader);
 	glUseProgram (f.shader.program);
-	glUniformMatrix4fv (f.shader.P_loc, 1, GL_FALSE, ortho(0.0, 800.0, 0.0, 600.0, 0.05, 100.0).m);
+	glUniformMatrix4fv (f.shader.P_loc, 1, GL_FALSE, ortho(0.0, 800.0, 0.0, 600.0, 0.9, 1.1).m);
 	glUniform3f (f.shader.colour_loc, 0.047, 0.067, 0.224);
 
 	// jus copied I@ll do better later so tired now
@@ -100,29 +101,29 @@ void draw_text (const char* text, Font f, float x, float y){
 	        x + w, y,
 	        x + w, y + h
 	    };
-	    // GLfloat tex_coords[12] = {
-	    //     xpos, ypos - h,
-	    //     xpos + w, ypos - h,
-	    //     xpos, ypos,
-
-	    //     xpos, ypos,
-	    //     xpos + w, ypos - h,
-	    //     xpos + w, ypos
-	    // };
 	    GLfloat tex_coords[12] = {
-	        0.0, 0.0,
-	        1.0, 0.0,
-	        0.0, 1.0,
+	        xpos, ypos - h,
+	        xpos + w, ypos - h,
+	        xpos, ypos,
 
-	        0.0, 1.0,
-	        1.0, 0.0,
-	        1.0, 1.0
+	        xpos, ypos,
+	        xpos + w, ypos - h,
+	        xpos + w, ypos
 	    };
+	    // GLfloat tex_coords[12] = {
+	    //     0.0, 0.0,
+	    //     1.0, 0.0,
+	    //     0.0, 1.0,
+
+	    //     0.0, 1.0,
+	    //     1.0, 0.0,
+	    //     1.0, 1.0
+	    // };
 
 	    for (int j = 0; j < 12; j++)
 	    {
-	    	//tex_coords[j] /= 1024.0;
-	    	vertices[j] *= 10.0;
+	    	tex_coords[j] /= 1024.0;
+	    	//vertices[j] *= 10.0;
 	    }
 
         // Update content of VBO memory

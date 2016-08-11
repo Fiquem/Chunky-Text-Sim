@@ -104,5 +104,7 @@ Shit I had issues with:
 	- problem # 1 text was behing the camera (ortho near planbe - 0.05, text at 0.0)
 	- fixed by moving text z = -1
 
-19. Why my text chunky?
+19. Why my text chunky? FIXED
 	- look at it, it's chunky
+	- is it because it's expecting a white background? instead of transparent?
+	- lol I am so good at this

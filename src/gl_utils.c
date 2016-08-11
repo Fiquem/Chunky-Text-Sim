@@ -9,10 +9,13 @@ bool init_gl(){
 
     // Start OpenGL using helper libraries
     if (!glfwInit ()) { fprintf (stderr, "ERROR: could not start GLFW3\n"); return false;}
-    g_gfx.window = glfwCreateWindow (INIT_WIN_WIDTH, INIT_WIN_HEIGHT, "Just Plagiarism TBH", NULL, NULL);
+    g_gfx.window = glfwCreateWindow (INIT_WIN_WIDTH, INIT_WIN_HEIGHT, "Chunky Text Sim", NULL, NULL);
     if (!g_gfx.window) { fprintf (stderr, "ERROR: opening OS window\n"); return false;}
     glfwMakeContextCurrent (g_gfx.window);
     glewExperimental = GL_TRUE;
+
+    // glfwWindowHint(GLFW_SAMPLES, 16);
+    // glEnable(GL_MULTISAMPLE);  
 
     // :/
     if (glewInit ()) { fprintf (stderr, "ERROR: could not start GLEW\n"); return false;}
