@@ -3,7 +3,7 @@
 #include "gl_utils.h"
 #include "shader.h"
 
-#define DEFAULT_FONT_SIZE 14
+#define DEFAULT_FONT_SIZE 20
 
 typedef struct Character{
 	int xpos, ypos;

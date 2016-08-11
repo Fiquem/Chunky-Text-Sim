@@ -26,7 +26,7 @@ Font load_font (const char* font_img, const char* font_meta){
 	// load font shader
 	create_program_from_files ("text.vert", "text.frag", &f.shader);
 	glUseProgram (f.shader.program);
-	glUniformMatrix4fv (f.shader.P_loc, 1, GL_FALSE, ortho(0.0, 800.0, 0.0, 600.0, 0.9, 1.1).m);
+	glUniformMatrix4fv (f.shader.P_loc, 1, GL_FALSE, ortho(0.0, INIT_WIN_WIDTH, 0.0, INIT_WIN_HEIGHT, 0.9, 1.1).m);
 	glUniform3f (f.shader.colour_loc, 0.047, 0.067, 0.224);
 
 	// jus copied I@ll do better later so tired now
@@ -86,10 +86,10 @@ void draw_text (const char* text, Font f, float x, float y){
         GLfloat xpos = c.xpos * 64;
         GLfloat ypos = c.ypos * 64;
 
-        GLfloat w = c.width;
-        GLfloat h = c.height;
+        GLfloat w = f.size;
+        GLfloat h = f.size;
 
-        //printf("%c %i - %f %f %f %f\n", text[i], text[i], xpos, ypos, w, h);
+        printf("%c %i - %f %f %f %f\n", text[i], text[i], xpos, ypos, w, h);
 
         // Update VBO for each character
 	    GLfloat vertices[12] = {
@@ -102,28 +102,18 @@ void draw_text (const char* text, Font f, float x, float y){
 	        x + w, y + h
 	    };
 	    GLfloat tex_coords[12] = {
-	        xpos, ypos - h,
-	        xpos + w, ypos - h,
+	        xpos, ypos - c.height,
+	        xpos + c.width, ypos - c.height,
 	        xpos, ypos,
 
 	        xpos, ypos,
-	        xpos + w, ypos - h,
-	        xpos + w, ypos
+	        xpos + c.width, ypos - c.height,
+	        xpos + c.width, ypos
 	    };
-	    // GLfloat tex_coords[12] = {
-	    //     0.0, 0.0,
-	    //     1.0, 0.0,
-	    //     0.0, 1.0,
-
-	    //     0.0, 1.0,
-	    //     1.0, 0.0,
-	    //     1.0, 1.0
-	    // };
 
 	    for (int j = 0; j < 12; j++)
 	    {
 	    	tex_coords[j] /= 1024.0;
-	    	//vertices[j] *= 10.0;
 	    }
 
         // Update content of VBO memory
@@ -134,7 +124,7 @@ void draw_text (const char* text, Font f, float x, float y){
         // Render quad
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
-        x += 64;
+        x += f.size;
 
 		i++;
 	}
