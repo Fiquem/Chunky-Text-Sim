@@ -75,7 +75,6 @@ void draw_text (const char* text, Font f, float x, float y){
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(text_vao);
 
-
     // Render glyph texture over quad
     glBindTexture(GL_TEXTURE_2D, f.texture);
 
@@ -89,7 +88,7 @@ void draw_text (const char* text, Font f, float x, float y){
         GLfloat w = f.size;
         GLfloat h = f.size;
 
-        printf("%c %i - %f %f %f %f\n", text[i], text[i], xpos, ypos, w, h);
+        printf("%d %i - %f %f %f %f\n", text[i], text[i], xpos, ypos, w, h);
 
         // Update VBO for each character
 	    GLfloat vertices[12] = {
