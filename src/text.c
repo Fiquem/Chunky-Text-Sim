@@ -5,8 +5,6 @@
 
 GLuint text_vao, text_point_vbo, text_tex_vbo;
 
-
-
 unsigned char a_fada = 160;
 unsigned char e_fada = 130;
 unsigned char i_fada = 161;
@@ -20,7 +18,7 @@ unsigned char u_fada_cap = 242;
 
 Font load_font (const char* font_img, const char* font_meta){
 	Font f;
-	f.size = DEFAULT_FONT_SIZE;
+	f.size = DEFAULT_FONT_SIZE * 1.5;
 
 	// load font tex
 	int x, y, n;
@@ -142,10 +140,11 @@ void draw_text (const char* text, Font f, float x, float y){
 	}
 
 	unsigned char fadas[] = {
-		a_fada, e_fada, i_fada, o_fada, u_fada
+		a_fada, e_fada, i_fada, o_fada, u_fada,
+		a_fada_cap, e_fada_cap, i_fada_cap, o_fada_cap, u_fada_cap
 	};
 
-	for (int i = 0; i < 5; i++){
+	for (int i = 0; i < 10; i++){
 		Character c = f.chars[fadas[i] - ' '];
 
         GLfloat xpos = c.xpos * 64;
