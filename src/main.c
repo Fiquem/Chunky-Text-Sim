@@ -29,8 +29,9 @@ int main()
     //Mesh plane = load_plane_mesh();
 
     // GOAL # I LOST COUNT. 18?: TEXT
-    Font test = load_font("font/debug.png", "font/testfont.meta");
-    const char* test_string = "hmmáíúéó\0";
+    Font test = load_font("font/testfont_white.png", "font/testfont.meta");
+    const char* test_string = "fada test: \0";
+    //printf("%c\n", a_fada);
     // meant to be 
 
     // draw loop

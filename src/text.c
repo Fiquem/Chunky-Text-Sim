@@ -5,6 +5,19 @@
 
 GLuint text_vao, text_point_vbo, text_tex_vbo;
 
+
+
+unsigned char a_fada = 160;
+unsigned char e_fada = 130;
+unsigned char i_fada = 161;
+unsigned char o_fada = 162;
+unsigned char u_fada = 163;
+unsigned char a_fada_cap = 231;
+unsigned char e_fada_cap = 144;
+unsigned char i_fada_cap = 234;
+unsigned char o_fada_cap = 238;
+unsigned char u_fada_cap = 242;
+
 Font load_font (const char* font_img, const char* font_meta){
 	Font f;
 	f.size = DEFAULT_FONT_SIZE;
@@ -88,7 +101,7 @@ void draw_text (const char* text, Font f, float x, float y){
         GLfloat w = f.size;
         GLfloat h = f.size;
 
-        printf("%d %i - %f %f %f %f\n", text[i], text[i], xpos, ypos, w, h);
+        //printf("%c %i - %f %f %f %f\n", text[i], text[i], xpos, ypos, w, h);
 
         // Update VBO for each character
 	    GLfloat vertices[12] = {
@@ -127,5 +140,57 @@ void draw_text (const char* text, Font f, float x, float y){
 
 		i++;
 	}
+
+	unsigned char fadas[] = {
+		a_fada, e_fada, i_fada, o_fada, u_fada
+	};
+
+	for (int i = 0; i < 5; i++){
+		Character c = f.chars[fadas[i] - ' '];
+
+        GLfloat xpos = c.xpos * 64;
+        GLfloat ypos = c.ypos * 64;
+
+        GLfloat w = f.size;
+        GLfloat h = f.size;
+
+        //printf("%c %i - %f %f %f %f\n", text[i], text[i], xpos, ypos, w, h);
+
+        // Update VBO for each character
+	    GLfloat vertices[12] = {
+	        x,     y,
+	        x + w, y,
+	        x,     y + h,
+
+	        x,     y + h,
+	        x + w, y,
+	        x + w, y + h
+	    };
+	    GLfloat tex_coords[12] = {
+	        xpos, ypos - c.height,
+	        xpos + c.width, ypos - c.height,
+	        xpos, ypos,
+
+	        xpos, ypos,
+	        xpos + c.width, ypos - c.height,
+	        xpos + c.width, ypos
+	    };
+
+	    for (int j = 0; j < 12; j++)
+	    {
+	    	tex_coords[j] /= 1024.0;
+	    }
+
+        // Update content of VBO memory
+        glBindBuffer(GL_ARRAY_BUFFER, text_point_vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, vertices, GL_DYNAMIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, text_tex_vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, tex_coords, GL_DYNAMIC_DRAW);
+        // Render quad
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        x += f.size;
+	}
+
 	glDisable (GL_BLEND);
 }
