@@ -89,9 +89,23 @@ void draw_text (const char* text, Font f, float x, float y){
     // Render glyph texture over quad
     glBindTexture(GL_TEXTURE_2D, f.texture);
 
+    Character c;
 	int i = 0;
 	while(text[i] != '\0'){
-		Character c = f.chars[text[i] - ' '];
+
+		// check if regular char or outside char range
+		if (text[i] < ' ' || text[i] > '~'+1){
+			printf("%c %c\n", text[i], text[i+1]);
+			unsigned char char_shifted = text[i];
+			char_shifted <<= 8;
+			printf("%d\n", char_shifted);
+			i++;
+			char_shifted += text[i];
+			printf("%d\n", char_shifted);
+			c = f.chars[char_shifted - ' '];
+		} else {
+			c = f.chars[text[i] - ' '];
+		}
 
         GLfloat xpos = c.xpos * 64;
         GLfloat ypos = c.ypos * 64;
@@ -144,52 +158,52 @@ void draw_text (const char* text, Font f, float x, float y){
 		a_fada_cap, e_fada_cap, i_fada_cap, o_fada_cap, u_fada_cap
 	};
 
-	for (int i = 0; i < 10; i++){
-		Character c = f.chars[fadas[i] - ' '];
+	// for (int i = 0; i < 10; i++){
+	// 	Character c = f.chars[fadas[i] - ' '];
 
-        GLfloat xpos = c.xpos * 64;
-        GLfloat ypos = c.ypos * 64;
+ //        GLfloat xpos = c.xpos * 64;
+ //        GLfloat ypos = c.ypos * 64;
 
-        GLfloat w = f.size;
-        GLfloat h = f.size;
+ //        GLfloat w = f.size;
+ //        GLfloat h = f.size;
 
-        //printf("%c %i - %f %f %f %f\n", text[i], text[i], xpos, ypos, w, h);
+ //        //printf("%c %i - %f %f %f %f\n", text[i], text[i], xpos, ypos, w, h);
 
-        // Update VBO for each character
-	    GLfloat vertices[12] = {
-	        x,     y,
-	        x + w, y,
-	        x,     y + h,
+ //        // Update VBO for each character
+	//     GLfloat vertices[12] = {
+	//         x,     y,
+	//         x + w, y,
+	//         x,     y + h,
 
-	        x,     y + h,
-	        x + w, y,
-	        x + w, y + h
-	    };
-	    GLfloat tex_coords[12] = {
-	        xpos, ypos - c.height,
-	        xpos + c.width, ypos - c.height,
-	        xpos, ypos,
+	//         x,     y + h,
+	//         x + w, y,
+	//         x + w, y + h
+	//     };
+	//     GLfloat tex_coords[12] = {
+	//         xpos, ypos - c.height,
+	//         xpos + c.width, ypos - c.height,
+	//         xpos, ypos,
 
-	        xpos, ypos,
-	        xpos + c.width, ypos - c.height,
-	        xpos + c.width, ypos
-	    };
+	//         xpos, ypos,
+	//         xpos + c.width, ypos - c.height,
+	//         xpos + c.width, ypos
+	//     };
 
-	    for (int j = 0; j < 12; j++)
-	    {
-	    	tex_coords[j] /= 1024.0;
-	    }
+	//     for (int j = 0; j < 12; j++)
+	//     {
+	//     	tex_coords[j] /= 1024.0;
+	//     }
 
-        // Update content of VBO memory
-        glBindBuffer(GL_ARRAY_BUFFER, text_point_vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, vertices, GL_DYNAMIC_DRAW);
-        glBindBuffer(GL_ARRAY_BUFFER, text_tex_vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, tex_coords, GL_DYNAMIC_DRAW);
-        // Render quad
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+ //        // Update content of VBO memory
+ //        glBindBuffer(GL_ARRAY_BUFFER, text_point_vbo);
+	// 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, vertices, GL_DYNAMIC_DRAW);
+ //        glBindBuffer(GL_ARRAY_BUFFER, text_tex_vbo);
+	// 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, tex_coords, GL_DYNAMIC_DRAW);
+ //        // Render quad
+ //        glDrawArrays(GL_TRIANGLES, 0, 6);
 
-        x += f.size;
-	}
+ //        x += f.size;
+	// }
 
 	glDisable (GL_BLEND);
 }
