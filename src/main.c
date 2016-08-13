@@ -29,7 +29,7 @@ int main()
     //Mesh plane = load_plane_mesh();
 
     // GOAL # I LOST COUNT. 18?: TEXT
-    Font test = load_font("font/testfont_white.png", "font/testfont.meta");
+    Font test = load_font("font/testfont.png", "font/testfont.meta");
     const char* test_string = "fada test: áéíóúÁÉÍÓÚ\0";
     //printf("%c\n", a_fada);
     // meant to be 
