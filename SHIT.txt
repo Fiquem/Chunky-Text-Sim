@@ -112,3 +112,4 @@ Shit I had issues with:
 20. Fadas
 	- how about check whether 0-127 and if not, concat i and i+1 and cast to int and that's the index
 	- have this working but olooks like my texture is wrrong again??
+	- noce
