@@ -5,19 +5,30 @@
 
 GLuint text_vao, text_point_vbo, text_tex_vbo;
 
-Font load_font (const char* font_img, const char* font_meta){
+Font load_font (const char* font_img, const char* font_img_s, const char* font_meta){
 	Font f;
 	f.size = DEFAULT_FONT_SIZE * 1.5;
 
 	// load font tex
 	int x, y, n;
     unsigned char* image = stbi_load(font_img, &x, &y, &n, 0);
+    unsigned char* image_s = stbi_load(font_img_s, &x, &y, &n, 0);
 
 	glActiveTexture(GL_TEXTURE0);
 	glGenTextures (1, &f.texture);
 	glActiveTexture (f.texture);
 	glBindTexture (GL_TEXTURE_2D, f.texture);
 	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	glActiveTexture(GL_TEXTURE0);
+	glGenTextures (1, &f.texture_selected);
+	glActiveTexture (f.texture_selected);
+	glBindTexture (GL_TEXTURE_2D, f.texture_selected);
+	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_s);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -86,12 +97,9 @@ void draw_text (Text t){
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(text_vao);
-    glBindTexture(GL_TEXTURE_2D, t.font.texture);
 
-    if (t.selected) 
-		glUniform3f (t.font.shader.colour_loc, 0.547, 0.567, 0.724);
-   else
-		glUniform3f (t.font.shader.colour_loc, 0.047, 0.067, 0.224);
+    // if (t.selected) glUniform3f (t.font.shader.colour_loc, 0.547, 0.567, 0.724);
+    // else glUniform3f (t.font.shader.colour_loc, 0.047, 0.067, 0.224);
 
     Character c;
 	int i = 0;
@@ -144,7 +152,15 @@ void draw_text (Text t){
 		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, vertices, GL_DYNAMIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, text_tex_vbo);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, tex_coords, GL_DYNAMIC_DRAW);
+		glBindTexture(GL_TEXTURE_2D, t.font.texture_selected);
+    	glUniform3f (t.font.shader.colour_loc, 0.547, 0.567, 0.724);
         glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        if (t.selected){
+		    glBindTexture(GL_TEXTURE_2D, t.font.texture);
+		    glUniform3f (t.font.shader.colour_loc, 0.047, 0.067, 0.224);
+     		glDrawArrays(GL_TRIANGLES, 0, 6);
+        }
 
         x += t.font.size;
 		i++;

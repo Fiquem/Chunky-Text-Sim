@@ -30,7 +30,7 @@ int main()
     Mesh plane = load_plane_mesh_given_points(plane_points);
 
     // GOAL # I LOST COUNT. 18?: TEXT
-    Font test_font = load_font("font/testfont.png", "font/testfont.meta");
+    Font test_font = load_font("font/testfont.png", "font/testfont_highlight.png", "font/testfont.meta");
     test_text = set_text(test_font, "fada test: áéíóúÁÉÍÓÚ", INIT_WIN_WIDTH, INIT_WIN_HEIGHT, 0.0, 0.0);
 
     // draw loop
