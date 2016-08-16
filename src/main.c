@@ -5,13 +5,17 @@
 #include "maths_funcs.h"
 #include "text.h"
 
+void character_callback(GLFWwindow* window, unsigned int codepoint);
+
 vec3 cam_pos = vec3(-50.0,-10.0,50.0);
 vec3 cam_rot = vec3(90.0,0.0,0.0);
+Text test_text;
 
 int main()
 {
     printf("\n----- Start Program -----\n\n");
     init_gl();
+    glfwSetCharCallback(g_gfx.window, character_callback);
 
     // GOAL #3: draw a cube (COMPLETE)
     // gonna put cube info in a header so cleaner
@@ -20,19 +24,14 @@ int main()
     Shader_Meta basic_shadermeta;
     create_program_from_files("basic.vert", "basic.frag", &basic_shadermeta);
 
-    //Mesh cube = load_cube_mesh();
-
     // GOAL #4: draw a plane with points with sorta randomised offsets
     // GOAL #5: make the plane kinda wobbly
     float* plane_points = gen_plane_points(NUM_ROWS, NUM_COLS);
     Mesh plane = load_plane_mesh_given_points(plane_points);
-    //Mesh plane = load_plane_mesh();
 
     // GOAL # I LOST COUNT. 18?: TEXT
     Font test_font = load_font("font/testfont.png", "font/testfont.meta");
-    const char* test_string = "fada test: áéíóúÁÉÍÓÚ\0";
-    Text test_text = set_text(test_font, "fada test: áéíóúÁÉÍÓÚ\0", INIT_WIN_WIDTH, INIT_WIN_HEIGHT, 0.0, 0.0);
-    // meant to be 
+    test_text = set_text(test_font, "fada test: áéíóúÁÉÍÓÚ", INIT_WIN_WIDTH, INIT_WIN_HEIGHT, 0.0, 0.0);
 
     // draw loop
     double prev = glfwGetTime();
@@ -42,11 +41,9 @@ int main()
         prev = curr;
 
         glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        // just the default viewport, covering the whole render area
         glViewport (0, 0, INIT_WIN_WIDTH, INIT_WIN_HEIGHT);
 
-        // displace points
-        // redo mesh
+        // displace points, redo mesh
         plane_points = displace_points(plane_points, plane.point_count);
         plane = load_plane_mesh_given_points(plane_points);
 
@@ -57,7 +54,6 @@ int main()
         glUniformMatrix4fv (basic_shadermeta.P_loc, 1, GL_FALSE, perspective(90, 800.0/600.0, 0.01, 1000.0).m);
         glDrawArrays (GL_TRIANGLES, 0, plane.point_count);
 
-        //draw_text (test_string, test_font, 0.0, 0.0);
         draw_text (test_text);
 
         // GOAL #2: make this not crash (COMPLETE)
@@ -94,4 +90,10 @@ int main()
     }
 
     printf("\n------ End Program ------\n\n");
+}
+
+void character_callback(GLFWwindow* window, unsigned int codepoint)
+{
+    if (glfwGetKey (window, GLFW_KEY_W) == GLFW_PRESS)
+        test_text.selected = !test_text.selected;
 }

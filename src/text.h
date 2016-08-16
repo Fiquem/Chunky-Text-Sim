@@ -29,5 +29,4 @@ typedef struct Text{
 
 Font load_font(const char* font_img, const char* font_meta);
 Text set_text(Font f, const char* s, int w, int h, int x, int y);
-void draw_text(const char* text, Font f, float x, float y);
 void draw_text(Text t);

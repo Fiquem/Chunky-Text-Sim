@@ -14,9 +14,6 @@ bool init_gl(){
     glfwMakeContextCurrent (g_gfx.window);
     glewExperimental = GL_TRUE;
 
-    // glfwWindowHint(GLFW_SAMPLES, 16);
-    // glEnable(GL_MULTISAMPLE);  
-
     // :/
     if (glewInit ()) { fprintf (stderr, "ERROR: could not start GLEW\n"); return false;}
 
