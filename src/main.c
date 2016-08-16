@@ -31,7 +31,7 @@ int main()
     // GOAL # I LOST COUNT. 18?: TEXT
     Font test_font = load_font("font/testfont.png", "font/testfont.meta");
     const char* test_string = "fada test: áéíóúÁÉÍÓÚ\0";
-    Text test_text = set_text(test_font, "fada test: áéíóúÁÉÍÓÚ\0", 0, 0, INIT_WIN_WIDTH, INIT_WIN_HEIGHT);
+    Text test_text = set_text(test_font, "fada test: áéíóúÁÉÍÓÚ\0", INIT_WIN_WIDTH, INIT_WIN_HEIGHT, 0.0, 0.0);
     // meant to be 
 
     // draw loop
