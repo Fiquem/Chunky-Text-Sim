@@ -57,11 +57,7 @@ Font load_font (const char* font_img, const char* font_img_s, const char* font_m
 	glBindBuffer (GL_ARRAY_BUFFER, text_tex_vbo);
 	glVertexAttribPointer (TEX_COORD, 2, GL_FLOAT, GL_FALSE, 0, NULL);
 
-	// glBindVertexArray(0);     
-
-	// // will figure out size later. don't really care rn.
-
-	// // load character info from meta
+	// load character info from meta
 	// NO META FOR THE MOMENT
 	int rows = 16;
 	int cols = 16;
@@ -94,6 +90,7 @@ Text set_text (Font f, const char* s, int w, int h, int x, int y){
 void draw_text (Text t){
 	glUseProgram (t.font.shader.program);
 	glEnable (GL_BLEND);
+    glDisable (GL_DEPTH_TEST);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(text_vao);
@@ -150,12 +147,12 @@ void draw_text (Text t){
         glBindBuffer(GL_ARRAY_BUFFER, text_tex_vbo);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, tex_coords, GL_DYNAMIC_DRAW);
 		glBindTexture(GL_TEXTURE_2D, t.font.texture);
-    	glUniform3f (t.font.shader.colour_loc, 0.547, 0.567, 0.724);
+    	glUniform3f(t.font.shader.colour_loc, 0.547, 0.567, 0.724);
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
         if (t.selected){
 		    glBindTexture(GL_TEXTURE_2D, t.font.texture_selected);
-		    glUniform3f (t.font.shader.colour_loc, 0.047, 0.067, 0.224);
+		    glUniform3f(t.font.shader.colour_loc, 0.047, 0.067, 0.224);
      		glDrawArrays(GL_TRIANGLES, 0, 6);
         }
 
@@ -163,5 +160,6 @@ void draw_text (Text t){
 		i++;
 	}
 	
+    glEnable (GL_DEPTH_TEST);
 	glDisable (GL_BLEND);
 }
