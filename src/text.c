@@ -141,20 +141,21 @@ void draw_text (Text t){
 	    for (int j = 0; j < 12; j++)
 	    	tex_coords[j] /= 1024.0;
 
-        // Draw letter
         glBindBuffer(GL_ARRAY_BUFFER, text_point_vbo);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, vertices, GL_DYNAMIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, text_tex_vbo);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, tex_coords, GL_DYNAMIC_DRAW);
-		glBindTexture(GL_TEXTURE_2D, t.font.texture);
-    	glUniform3f(t.font.shader.colour_loc, 0.547, 0.567, 0.724);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
 
         if (t.selected){
 		    glBindTexture(GL_TEXTURE_2D, t.font.texture_selected);
-		    glUniform3f(t.font.shader.colour_loc, 0.047, 0.067, 0.224);
+    		glUniform3f(t.font.shader.colour_loc, 1.0, 0.761, 0.161);
      		glDrawArrays(GL_TRIANGLES, 0, 6);
         }
+
+        // Draw letter
+		glBindTexture(GL_TEXTURE_2D, t.font.texture);
+		glUniform3f(t.font.shader.colour_loc, 0.047, 0.067, 0.224);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
 
         x += t.font.size;
 		i++;
