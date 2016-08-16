@@ -109,7 +109,13 @@ Shit I had issues with:
 	- is it because it's expecting a white background? instead of transparent?
 	- lol I am so good at this
 
-20. Fadas
+20. Fadas FICED
 	- how about check whether 0-127 and if not, concat i and i+1 and cast to int and that's the index
 	- have this working but olooks like my texture is wrrong again??
 	- noce
+
+21. text placement and selection
+	- uh idk if placement is gonna be an issue byt I haven't thought about it at all
+	- higlighting shounds dcool though
+	- think I need to get the text VAO for each text that I draw out? then can acces and edit position rel easy?
+	- orrrr do I do like a text meta thing and keep it in there? that sounds better I think?
