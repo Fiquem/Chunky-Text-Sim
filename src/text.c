@@ -68,11 +68,15 @@ Font load_font (const char* font_img, const char* font_meta){
 	return f;
 }
 
-Text set_text (Font f, const char* s){
+Text set_text (Font f, const char* s, int w, int h, int x, int y){
 	Text t;
 	t.font = f;
 	t.text = s;
 	t.selected = false;
+	t.width = w;
+	t.height = h;
+	t.xpos = x;
+	t.ypos = y;
 	return t;
 }
 
@@ -82,8 +86,6 @@ void draw_text (const char* text, Font f, float x, float y){
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(text_vao);
-
-    // Render glyph texture over quad
     glBindTexture(GL_TEXTURE_2D, f.texture);
 
     Character c;
@@ -146,6 +148,83 @@ void draw_text (const char* text, Font f, float x, float y){
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
         x += f.size;
+
+		i++;
+	}
+	
+	glDisable (GL_BLEND);
+}
+
+void draw_text (Text t){
+	glUseProgram (t.font.shader.program);
+	glEnable (GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glActiveTexture(GL_TEXTURE0);
+	glBindVertexArray(text_vao);
+    glBindTexture(GL_TEXTURE_2D, t.font.texture);
+
+    Character c;
+	int i = 0;
+	float x = t.xpos;
+	float y = t.ypos;
+	while(t.text[i] != '\0'){
+
+		// check if regular char or outside char range
+		if (t.text[i] < ' ' || t.text[i] > '~'+1){
+			//printf("%c %c\n", text[i], text[i+1]);
+			unsigned char char_shifted = t.text[i];
+			char_shifted <<= 8;
+			//printf("%d\n", char_shifted);
+			i++;
+			char_shifted += t.text[i];
+			//printf("%d\n", char_shifted);
+			c = t.font.chars[char_shifted - ' '];
+		} else {
+			c = t.font.chars[t.text[i] - ' '];
+		}
+
+        GLfloat xpos = c.xpos * 64;
+        GLfloat ypos = c.ypos * 64;
+
+        GLfloat w = t.font.size;
+        GLfloat h = t.font.size;
+
+        //printf("%c %i - %f %f %f %f\n", text[i], text[i], xpos, ypos, w, h);
+
+        // Update VBO for each character
+	    GLfloat vertices[12] = {
+	        x,     y,
+	        x + w, y,
+	        x,     y + h,
+
+	        x,     y + h,
+	        x + w, y,
+	        x + w, y + h
+	    };
+	    GLfloat tex_coords[12] = {
+	        xpos, ypos - c.height,
+	        xpos + c.width, ypos - c.height,
+	        xpos, ypos,
+
+	        xpos, ypos,
+	        xpos + c.width, ypos - c.height,
+	        xpos + c.width, ypos
+	    };
+
+	    for (int j = 0; j < 12; j++)
+	    {
+	    	tex_coords[j] /= 1024.0;
+	    }
+
+        // Update content of VBO memory
+        glBindBuffer(GL_ARRAY_BUFFER, text_point_vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, vertices, GL_DYNAMIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, text_tex_vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, tex_coords, GL_DYNAMIC_DRAW);
+        // Render quad
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        x += t.font.size;
 
 		i++;
 	}
