@@ -98,9 +98,6 @@ void draw_text (Text t){
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(text_vao);
 
-    // if (t.selected) glUniform3f (t.font.shader.colour_loc, 0.547, 0.567, 0.724);
-    // else glUniform3f (t.font.shader.colour_loc, 0.047, 0.067, 0.224);
-
     Character c;
 	int i = 0;
 	float x = t.xpos;
@@ -152,12 +149,12 @@ void draw_text (Text t){
 		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, vertices, GL_DYNAMIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, text_tex_vbo);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, tex_coords, GL_DYNAMIC_DRAW);
-		glBindTexture(GL_TEXTURE_2D, t.font.texture_selected);
+		glBindTexture(GL_TEXTURE_2D, t.font.texture);
     	glUniform3f (t.font.shader.colour_loc, 0.547, 0.567, 0.724);
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
         if (t.selected){
-		    glBindTexture(GL_TEXTURE_2D, t.font.texture);
+		    glBindTexture(GL_TEXTURE_2D, t.font.texture_selected);
 		    glUniform3f (t.font.shader.colour_loc, 0.047, 0.067, 0.224);
      		glDrawArrays(GL_TRIANGLES, 0, 6);
         }
