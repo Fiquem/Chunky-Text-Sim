@@ -157,7 +157,12 @@ void draw_text (Text t){
 		glUniform3f(t.font.shader.colour_loc, 0.047, 0.067, 0.224);
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
-        x += t.font.size;
+        if (x + (2*t.font.size) < t.width) x += t.font.size;
+        else {
+        	x = t.xpos;
+        	y -= t.font.size;
+        }
+
 		i++;
 	}
 	
