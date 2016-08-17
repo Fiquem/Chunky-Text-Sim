@@ -84,8 +84,8 @@ Text set_text (Font f, const char* s, int w, int h, int x, int y){
 	t.height = h;
 	t.xpos = x;
 	t.ypos = y;
+	
 	t.length = 0;
-
 	int i = 0;
 	while(t.text[i] != '\0'){
 		// check if regular char or outside char range
@@ -121,7 +121,6 @@ void set_text_pos(Text* t, Text_Positions pos){
 			break;
 		}
 		case CENTRE: {
-			printf("%d\n", t->font.size);
 			t->ypos = t->height/2.0;
 			t->xpos = (t->width - (t->length * t->font.size))/2.0;
 			break;

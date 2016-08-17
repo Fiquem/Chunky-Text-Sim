@@ -4,12 +4,14 @@
 #include "mesh.h"
 #include "maths_funcs.h"
 #include "text.h"
+#include "menu.h"
 
 void character_callback(GLFWwindow* window, unsigned int codepoint);
 
 vec3 cam_pos = vec3(-50.0,-10.0,50.0);
 vec3 cam_rot = vec3(90.0,0.0,0.0);
 Text test_text;
+Menu test_menu;
 
 int main()
 {
@@ -33,6 +35,11 @@ int main()
     Font test_font = load_font("font/testfont.png", "font/testfont_highlight.png", "font/testfont.meta");
     test_text = set_text(test_font, "fada test: áéíóúÁÉÍÓÚ", INIT_WIN_WIDTH, INIT_WIN_HEIGHT, 100.0, 50.0);
 
+    // I stopped doing goals and just kept going
+    // goal a billion make a mnau
+    const char* opts[] = {"opt","opt","opt","opt","opt"};
+    test_menu = create_menu(test_font, opts, 5, INIT_WIN_WIDTH, INIT_WIN_HEIGHT/2.0, 0.0, 150.0);
+
     // draw loop
     double prev = glfwGetTime();
     while (!glfwWindowShouldClose (g_gfx.window)) {
@@ -54,24 +61,26 @@ int main()
         glUniformMatrix4fv (basic_shadermeta.P_loc, 1, GL_FALSE, perspective(90, 800.0/600.0, 0.01, 1000.0).m);
         glDrawArrays (GL_TRIANGLES, 0, plane.point_count);
 
-        draw_text (test_text);
+        //draw_text (test_text);
+        draw_menu (test_menu);
 
         // GOAL #2: make this not crash (COMPLETE)
         // will uncomment this when I add in forward and right vecs
         if (glfwGetKey (g_gfx.window, GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose (g_gfx.window, GL_TRUE);
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_W))
-            set_text_pos (&test_text, test_text.xpos, test_text.ypos+(100.0*elapsed_time));
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_S))
-            set_text_pos (&test_text, test_text.xpos, test_text.ypos-(100.0*elapsed_time));
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_A))
-            set_text_pos (&test_text, test_text.xpos-(100.0*elapsed_time), test_text.ypos);
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_D))
-            set_text_pos (&test_text, test_text.xpos+(100.0*elapsed_time), test_text.ypos);
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_Q))
-            set_text_pos (&test_text, RIGHT);
+        // if (glfwGetKey (g_gfx.window, GLFW_KEY_W))
+        //     set_text_pos (&test_text, test_text.xpos, test_text.ypos+(100.0*elapsed_time));
+        // if (glfwGetKey (g_gfx.window, GLFW_KEY_S))
+        //     set_text_pos (&test_text, test_text.xpos, test_text.ypos-(100.0*elapsed_time));
+        // if (glfwGetKey (g_gfx.window, GLFW_KEY_A))
+        //     set_text_pos (&test_text, test_text.xpos-(100.0*elapsed_time), test_text.ypos);
+        // if (glfwGetKey (g_gfx.window, GLFW_KEY_D))
+        //     set_text_pos (&test_text, test_text.xpos+(100.0*elapsed_time), test_text.ypos);
+        // if (glfwGetKey (g_gfx.window, GLFW_KEY_Q))
+        //     set_text_pos (&test_text, RIGHT);
         // if (glfwGetKey (g_gfx.window, GLFW_KEY_E))
         //     cam_pos.v[1] -= 0.1;
+
         if (glfwGetKey (g_gfx.window, GLFW_KEY_UP))
             if(cam_rot.v[0] < 90) cam_rot.v[0] += 50 * elapsed_time;
             //cam_rot.v[0] += 50 * elapsed_time;
@@ -94,6 +103,8 @@ int main()
 
 void character_callback(GLFWwindow* window, unsigned int codepoint)
 {
-    if (glfwGetKey (window, GLFW_KEY_SPACE) == GLFW_PRESS)
-        test_text.selected = !test_text.selected;
+    if (glfwGetKey (window, GLFW_KEY_W))
+        decrement_menu_selected(&test_menu);
+    if (glfwGetKey (window, GLFW_KEY_S))
+        increment_menu_selected(&test_menu);
 }
