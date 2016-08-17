@@ -142,6 +142,10 @@ void draw_text (Text t){
 	float y = t.ypos;
 	float xpos, ypos, w, h;
 	unsigned char char_shifted;
+	vec3 text_colour = vec3(0.047, 0.067, 0.224);
+	vec3 text_selected = vec3(1.0, 0.271, 0.755);
+	vec3 text_unselected = vec3(1.0, 1.0, 1.0);
+	vec3 text_highlight = vec3(0.055, 0.871, 0.055);
 	while(t.text[i] != '\0'){
 
 		// check if regular char or outside char range
@@ -189,15 +193,15 @@ void draw_text (Text t){
         glBindBuffer(GL_ARRAY_BUFFER, text_tex_vbo);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 12, tex_coords, GL_DYNAMIC_DRAW);
 
-        if (t.selected){
-		    glBindTexture(GL_TEXTURE_2D, t.font.texture_selected);
-    		glUniform3f(t.font.shader.colour_loc, 1.0, 0.761, 0.161);
-     		glDrawArrays(GL_TRIANGLES, 0, 6);
-        }
+        if (t.selected) text_highlight = text_selected;
+        else text_highlight = text_unselected;
 
         // Draw letter
+    	glBindTexture(GL_TEXTURE_2D, t.font.texture_selected);
+		glUniform3f(t.font.shader.colour_loc, text_highlight.v[0], text_highlight.v[1], text_highlight.v[2]);
+ 		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glBindTexture(GL_TEXTURE_2D, t.font.texture);
-		glUniform3f(t.font.shader.colour_loc, 0.047, 0.067, 0.224);
+		glUniform3f(t.font.shader.colour_loc, text_colour.v[0], text_colour.v[1], text_colour.v[2]);
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
         if (x + (2*t.font.size) <= t.width) x += t.font.size;
