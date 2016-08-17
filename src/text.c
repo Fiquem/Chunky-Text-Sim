@@ -84,7 +84,49 @@ Text set_text (Font f, const char* s, int w, int h, int x, int y){
 	t.height = h;
 	t.xpos = x;
 	t.ypos = y;
+	t.length = 0;
+
+	int i = 0;
+	while(t.text[i] != '\0'){
+		// check if regular char or outside char range
+		if (t.text[i] < ' ' || t.text[i] > '~'+1) i+=2;
+		else i++;
+		t.length++;
+	}
+
 	return t;
+}
+
+void set_text_pos(Text* t, float x, float y){
+	t->xpos = x;
+	t->ypos = y;
+}
+
+void set_text_pos(Text* t, Text_Positions pos){
+	switch (pos) {
+		case TOP: {
+			t->ypos = t->height - t->font.size;
+			break;
+		}
+		case BOTTOM: {
+			t->ypos = 0.0;
+			break;
+		}
+		case LEFT: {
+			t->xpos = 0.0;
+			break;
+		}
+		case RIGHT: {
+			t->xpos = t->width - (t->length * t->font.size);
+			break;
+		}
+		case CENTRE: {
+			printf("%d\n", t->font.size);
+			t->ypos = t->height/2.0;
+			t->xpos = (t->width - (t->length * t->font.size))/2.0;
+			break;
+		}
+	}
 }
 
 void draw_text (Text t){
@@ -99,11 +141,13 @@ void draw_text (Text t){
 	int i = 0;
 	float x = t.xpos;
 	float y = t.ypos;
+	float xpos, ypos, w, h;
+	unsigned char char_shifted;
 	while(t.text[i] != '\0'){
 
 		// check if regular char or outside char range
 		if (t.text[i] < ' ' || t.text[i] > '~'+1){
-			unsigned char char_shifted = t.text[i];
+			char_shifted = t.text[i];
 			char_shifted <<= 8;
 			i++;
 			char_shifted += t.text[i];
@@ -111,11 +155,11 @@ void draw_text (Text t){
 		} else
 			c = t.font.chars[t.text[i] - ' '];
 
-        GLfloat xpos = c.xpos * 64;
-        GLfloat ypos = c.ypos * 64;
+        xpos = c.xpos * 64;
+        ypos = c.ypos * 64;
 
-        GLfloat w = t.font.size;
-        GLfloat h = t.font.size;
+        w = t.font.size;
+        h = t.font.size;
 
         // Update VBO for each character
 	    GLfloat vertices[12] = {
@@ -157,7 +201,7 @@ void draw_text (Text t){
 		glUniform3f(t.font.shader.colour_loc, 0.047, 0.067, 0.224);
         glDrawArrays(GL_TRIANGLES, 0, 6);
 
-        if (x + (2*t.font.size) < t.width) x += t.font.size;
+        if (x + (2*t.font.size) <= t.width) x += t.font.size;
         else {
         	x = t.xpos;
         	y -= t.font.size;

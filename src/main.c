@@ -60,16 +60,16 @@ int main()
         // will uncomment this when I add in forward and right vecs
         if (glfwGetKey (g_gfx.window, GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose (g_gfx.window, GL_TRUE);
-        // if (glfwGetKey (g_gfx.window, GLFW_KEY_W))
-        //     cam_pos.v[2] += 10 * elapsed_time;
-        // if (glfwGetKey (g_gfx.window, GLFW_KEY_S))
-        //     cam_pos.v[2] -= 10 * elapsed_time;
-        // if (glfwGetKey (g_gfx.window, GLFW_KEY_A))
-        //     cam_pos.v[0] += 10 * elapsed_time;
-        // if (glfwGetKey (g_gfx.window, GLFW_KEY_D))
-        //     cam_pos.v[0] -= 10 * elapsed_time;
-        // if (glfwGetKey (g_gfx.window, GLFW_KEY_Q))
-        //     cam_pos.v[1] += 0.1;
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_W))
+            set_text_pos (&test_text, test_text.xpos, test_text.ypos+(100.0*elapsed_time));
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_S))
+            set_text_pos (&test_text, test_text.xpos, test_text.ypos-(100.0*elapsed_time));
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_A))
+            set_text_pos (&test_text, test_text.xpos-(100.0*elapsed_time), test_text.ypos);
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_D))
+            set_text_pos (&test_text, test_text.xpos+(100.0*elapsed_time), test_text.ypos);
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_Q))
+            set_text_pos (&test_text, RIGHT);
         // if (glfwGetKey (g_gfx.window, GLFW_KEY_E))
         //     cam_pos.v[1] -= 0.1;
         if (glfwGetKey (g_gfx.window, GLFW_KEY_UP))
@@ -94,6 +94,6 @@ int main()
 
 void character_callback(GLFWwindow* window, unsigned int codepoint)
 {
-    if (glfwGetKey (window, GLFW_KEY_W) == GLFW_PRESS)
+    if (glfwGetKey (window, GLFW_KEY_SPACE) == GLFW_PRESS)
         test_text.selected = !test_text.selected;
 }
