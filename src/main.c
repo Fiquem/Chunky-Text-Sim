@@ -68,25 +68,10 @@ int main()
         // will uncomment this when I add in forward and right vecs
         if (glfwGetKey (g_gfx.window, GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose (g_gfx.window, GL_TRUE);
-        // if (glfwGetKey (g_gfx.window, GLFW_KEY_W))
-        //     set_text_pos (&test_text, test_text.xpos, test_text.ypos+(100.0*elapsed_time));
-        // if (glfwGetKey (g_gfx.window, GLFW_KEY_S))
-        //     set_text_pos (&test_text, test_text.xpos, test_text.ypos-(100.0*elapsed_time));
-        // if (glfwGetKey (g_gfx.window, GLFW_KEY_A))
-        //     set_text_pos (&test_text, test_text.xpos-(100.0*elapsed_time), test_text.ypos);
-        // if (glfwGetKey (g_gfx.window, GLFW_KEY_D))
-        //     set_text_pos (&test_text, test_text.xpos+(100.0*elapsed_time), test_text.ypos);
-        // if (glfwGetKey (g_gfx.window, GLFW_KEY_Q))
-        //     set_text_pos (&test_text, RIGHT);
-        // if (glfwGetKey (g_gfx.window, GLFW_KEY_E))
-        //     cam_pos.v[1] -= 0.1;
-
         if (glfwGetKey (g_gfx.window, GLFW_KEY_UP))
             if(cam_rot.v[0] < 90) cam_rot.v[0] += 50 * elapsed_time;
-            //cam_rot.v[0] += 50 * elapsed_time;
         if (glfwGetKey (g_gfx.window, GLFW_KEY_DOWN))
             if(cam_rot.v[0] > 70) cam_rot.v[0] -= 50 * elapsed_time;
-            //cam_rot.v[0] -= 50 * elapsed_time;
         if (glfwGetKey (g_gfx.window, GLFW_KEY_LEFT))
             cam_rot.v[1] -= 50 * elapsed_time;
         if (glfwGetKey (g_gfx.window, GLFW_KEY_RIGHT))
@@ -107,4 +92,6 @@ void character_callback(GLFWwindow* window, unsigned int codepoint)
         decrement_menu_selected(&test_menu);
     if (glfwGetKey (window, GLFW_KEY_S))
         increment_menu_selected(&test_menu);
+    if (glfwGetKey (window, GLFW_KEY_ENTER))
+        select_menu_item(&test_menu);
 }
