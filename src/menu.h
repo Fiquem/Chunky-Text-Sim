@@ -4,7 +4,7 @@
 
 typedef struct MenuOption{
 	Text text;
-	void function() {printf("test\n");};
+	void function(int i) {printf("%d\n", i);};
 }MenuOption;
 
 typedef struct Menu{

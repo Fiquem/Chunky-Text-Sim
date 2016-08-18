@@ -45,5 +45,5 @@ void decrement_menu_selected(Menu* m){
 }
 
 void select_menu_item(Menu* m){
-	m->options[m->selected].function();
+	m->options[m->selected].function(m->selected);
 }

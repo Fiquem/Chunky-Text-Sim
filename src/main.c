@@ -6,7 +6,7 @@
 #include "text.h"
 #include "menu.h"
 
-void character_callback(GLFWwindow* window, unsigned int codepoint);
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 vec3 cam_pos = vec3(-50.0,-10.0,50.0);
 vec3 cam_rot = vec3(90.0,0.0,0.0);
@@ -17,7 +17,7 @@ int main()
 {
     printf("\n----- Start Program -----\n\n");
     init_gl();
-    glfwSetCharCallback(g_gfx.window, character_callback);
+    glfwSetKeyCallback(g_gfx.window, key_callback);
 
     // GOAL #3: draw a cube (COMPLETE)
     // gonna put cube info in a header so cleaner
@@ -86,12 +86,12 @@ int main()
     printf("\n------ End Program ------\n\n");
 }
 
-void character_callback(GLFWwindow* window, unsigned int codepoint)
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    if (glfwGetKey (window, GLFW_KEY_W))
+    if (key == GLFW_KEY_W && action == GLFW_PRESS)
         decrement_menu_selected(&test_menu);
-    if (glfwGetKey (window, GLFW_KEY_S))
+    if (key == GLFW_KEY_S && action == GLFW_PRESS)
         increment_menu_selected(&test_menu);
-    if (glfwGetKey (window, GLFW_KEY_ENTER))
+    if (key == GLFW_KEY_ENTER && action == GLFW_PRESS)
         select_menu_item(&test_menu);
 }
