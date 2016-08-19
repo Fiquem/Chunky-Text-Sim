@@ -6,6 +6,7 @@
 #include "text.h"
 #include "menu.h"
 #include "camera.h"
+#include "game_utils.h"
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
@@ -41,6 +42,8 @@ int main()
 
     Camera cam = init_camera();
 
+    GameState game_state = MENU;
+
     // draw loop
     double prev = glfwGetTime();
     while (!glfwWindowShouldClose (g_gfx.window)) {
@@ -51,22 +54,34 @@ int main()
         glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glViewport (0, 0, INIT_WIN_WIDTH, INIT_WIN_HEIGHT);
 
+        switch(game_state){
+            case MENU:
+                draw_plane (basic_shadermeta, &plane, &plane_points, cam);
+                draw_menu (test_menu);
 
-        draw_plane (basic_shadermeta, &plane, &plane_points, cam);
-        draw_menu (test_menu);
+                // GOAL #2: make this not crash (COMPLETE)
+                // will uncomment this when I add in forward and right vecs
+                if (glfwGetKey (g_gfx.window, GLFW_KEY_ESCAPE))
+                    glfwSetWindowShouldClose (g_gfx.window, GL_TRUE);
+                if (glfwGetKey (g_gfx.window, GLFW_KEY_W))
+                    if(cam.rot.v[0] < 90) cam.rot.v[0] += 50 * elapsed_time;
+                if (glfwGetKey (g_gfx.window, GLFW_KEY_S))
+                    if(cam.rot.v[0] > 70) cam.rot.v[0] -= 50 * elapsed_time;
+                if (glfwGetKey (g_gfx.window, GLFW_KEY_A))
+                    cam.rot.v[1] -= 50 * elapsed_time;
+                if (glfwGetKey (g_gfx.window, GLFW_KEY_D))
+                    cam.rot.v[1] += 50 * elapsed_time;
 
-        // GOAL #2: make this not crash (COMPLETE)
-        // will uncomment this when I add in forward and right vecs
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_ESCAPE))
-            glfwSetWindowShouldClose (g_gfx.window, GL_TRUE);
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_W))
-            if(cam.rot.v[0] < 90) cam.rot.v[0] += 50 * elapsed_time;
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_S))
-            if(cam.rot.v[0] > 70) cam.rot.v[0] -= 50 * elapsed_time;
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_A))
-            cam.rot.v[1] -= 50 * elapsed_time;
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_D))
-            cam.rot.v[1] += 50 * elapsed_time;
+                break;
+
+            case TEST:
+                printf("I deid it\n");
+                break;
+
+            default:
+                printf("Unhandled game state.\n");
+                exit(1);
+        }
 
         glfwPollEvents();
         // I swear to god if this is why

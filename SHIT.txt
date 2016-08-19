@@ -119,3 +119,7 @@ Shit I had issues with:
 	- higlighting shounds dcool though
 	- think I need to get the text VAO for each text that I draw out? then can acces and edit position rel easy?
 	- orrrr do I do like a text meta thing and keep it in there? that sounds better I think?
+
+22. so like game states? menu buttons change this?
+	so like button #1 is start game and it does something y'know
+	should I define gamestates somewher? like enums? porb
