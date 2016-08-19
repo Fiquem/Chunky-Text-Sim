@@ -5,11 +5,10 @@
 #include "maths_funcs.h"
 #include "text.h"
 #include "menu.h"
+#include "camera.h"
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-vec3 cam_pos = vec3(-50.0,-10.0,50.0);
-vec3 cam_rot = vec3(90.0,0.0,0.0);
 Text test_text;
 Menu test_menu;
 
@@ -40,6 +39,8 @@ int main()
     const char* opts[] = {"HEY","L:OOK","IT'S","A","MENUI"};
     test_menu = create_menu(test_font, opts, 5, INIT_WIN_WIDTH, INIT_WIN_HEIGHT/2.0, 0.0, 150.0);
 
+    Camera cam = init_camera();
+
     // draw loop
     double prev = glfwGetTime();
     while (!glfwWindowShouldClose (g_gfx.window)) {
@@ -50,32 +51,22 @@ int main()
         glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glViewport (0, 0, INIT_WIN_WIDTH, INIT_WIN_HEIGHT);
 
-        // displace points, redo mesh
-        plane_points = displace_points(plane_points, plane.point_count);
-        plane = load_plane_mesh_given_points(plane_points);
 
-        glUseProgram (basic_shadermeta.program);
-        glBindVertexArray (plane.vao);
-        glUniformMatrix4fv (basic_shadermeta.M_loc, 1, GL_FALSE, identity_mat4().m);
-        glUniformMatrix4fv (basic_shadermeta.V_loc, 1, GL_FALSE, rotate_x_deg(rotate_y_deg(translate(identity_mat4(), cam_pos), cam_rot.v[1]), cam_rot.v[0]).m);
-        glUniformMatrix4fv (basic_shadermeta.P_loc, 1, GL_FALSE, perspective(90, 800.0/600.0, 0.01, 1000.0).m);
-        glDrawArrays (GL_TRIANGLES, 0, plane.point_count);
-
-        //draw_text (test_text);
+        draw_plane (basic_shadermeta, &plane, &plane_points, cam);
         draw_menu (test_menu);
 
         // GOAL #2: make this not crash (COMPLETE)
         // will uncomment this when I add in forward and right vecs
         if (glfwGetKey (g_gfx.window, GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose (g_gfx.window, GL_TRUE);
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_UP))
-            if(cam_rot.v[0] < 90) cam_rot.v[0] += 50 * elapsed_time;
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_DOWN))
-            if(cam_rot.v[0] > 70) cam_rot.v[0] -= 50 * elapsed_time;
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_LEFT))
-            cam_rot.v[1] -= 50 * elapsed_time;
-        if (glfwGetKey (g_gfx.window, GLFW_KEY_RIGHT))
-            cam_rot.v[1] += 50 * elapsed_time;
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_W))
+            if(cam.rot.v[0] < 90) cam.rot.v[0] += 50 * elapsed_time;
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_S))
+            if(cam.rot.v[0] > 70) cam.rot.v[0] -= 50 * elapsed_time;
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_A))
+            cam.rot.v[1] -= 50 * elapsed_time;
+        if (glfwGetKey (g_gfx.window, GLFW_KEY_D))
+            cam.rot.v[1] += 50 * elapsed_time;
 
         glfwPollEvents();
         // I swear to god if this is why
@@ -88,9 +79,9 @@ int main()
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    if (key == GLFW_KEY_W && action == GLFW_PRESS)
+    if (key == GLFW_KEY_UP && action == GLFW_PRESS)
         decrement_menu_selected(&test_menu);
-    if (key == GLFW_KEY_S && action == GLFW_PRESS)
+    if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
         increment_menu_selected(&test_menu);
     if (key == GLFW_KEY_ENTER && action == GLFW_PRESS)
         select_menu_item(&test_menu);

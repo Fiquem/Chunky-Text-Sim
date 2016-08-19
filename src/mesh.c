@@ -1,6 +1,5 @@
 #include "mesh.h"
 #include "cube.h"
-#include "shader.h"
 #include "maths_funcs.h"
 #include "time.h"
 
@@ -234,4 +233,17 @@ float* displace_points(float* points, int num_points){
 	for (int i = 0; i < 3*num_points; i+=3)
 		points[i + 1] += sin(time(NULL)+(points[i]*points[i+2]))/100.0;
 	return points;
+}
+
+void draw_plane (Shader_Meta s, Mesh* m, float** points, Camera c){
+    // displace points, redo mesh
+    *points = displace_points(*points, m->point_count);
+    *m = load_plane_mesh_given_points(*points);
+
+    glUseProgram (s.program);
+    glBindVertexArray (m->vao);
+    glUniformMatrix4fv (s.M_loc, 1, GL_FALSE, identity_mat4().m);
+    glUniformMatrix4fv (s.V_loc, 1, GL_FALSE, rotate_x_deg(rotate_y_deg(translate(identity_mat4(), c.pos), c.rot.v[1]), c.rot.v[0]).m);
+    glUniformMatrix4fv (s.P_loc, 1, GL_FALSE, perspective(90, 800.0/600.0, 0.01, 1000.0).m);
+    glDrawArrays (GL_TRIANGLES, 0, m->point_count);
 }
