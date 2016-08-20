@@ -2,13 +2,13 @@
 
 #include "text.h"
 
-typedef void (*MenuFunction)(int);
+typedef void (*MenuFunction)();
 
 typedef struct MenuOption{
 	Text text;
 	// alright, funciton pointers, leggo
 	MenuFunction function_pointer;
-	void function(int i) { printf("uhh\n"); this->function_pointer(0); };
+	void function() { this->function_pointer(); };
 }MenuOption;
 
 typedef struct Menu{
@@ -18,9 +18,8 @@ typedef struct Menu{
 	int selected;
 }Menu;
 
-Menu create_menu(Font f, const char** opts, int l, float w, float h, float x, float y);
+Menu create_menu(Font f, const char** opts, MenuFunction* funcs, int l, float w, float h, float x, float y);
 void draw_menu(Menu m);
 void increment_menu_selected(Menu* m);
 void decrement_menu_selected(Menu* m);
 void select_menu_item(Menu* m);
-void test(int i);

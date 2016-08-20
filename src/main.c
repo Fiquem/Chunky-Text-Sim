@@ -13,6 +13,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 Text test_text;
 Menu test_menu;
 
+void test(){
+    printf("test\n");
+}
+
 int main()
 {
     printf("\n----- Start Program -----\n\n");
@@ -38,7 +42,8 @@ int main()
     // I stopped doing goals and just kept going
     // goal a billion make a mnau
     const char* opts[] = {"HEY","L:OOK","IT'S","A","MENUI"};
-    test_menu = create_menu(test_font, opts, 5, INIT_WIN_WIDTH, INIT_WIN_HEIGHT/2.0, 0.0, 150.0);
+    MenuFunction funcs[] = {test, test, test, test, test};
+    test_menu = create_menu(test_font, opts, funcs, 5, INIT_WIN_WIDTH, INIT_WIN_HEIGHT/2.0, 0.0, 150.0);
 
     Camera cam = init_camera();
 

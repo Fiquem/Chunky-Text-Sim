@@ -1,6 +1,6 @@
 #include "menu.h"
 
-Menu create_menu(Font f, const char** opts, int length, float w, float h, float x, float y){
+Menu create_menu(Font f, const char** opts, MenuFunction* funcs, int length, float w, float h, float x, float y){
 	Menu m;
 	Text t;
 	m.options = (MenuOption*)malloc(sizeof(MenuOption)*length);
@@ -16,7 +16,7 @@ Menu create_menu(Font f, const char** opts, int length, float w, float h, float 
 		set_text_pos(&t, CENTRE);
 		set_text_pos(&t, t.xpos+x, ((length-1-i)*(m.height-f.size)/(length-1))+y);
 		m.options[i].text = t;
-		m.options[i].function_pointer = test;
+		m.options[i].function_pointer = funcs[i];
 	}
 
 	m.options[0].text.selected = true;
@@ -46,9 +46,5 @@ void decrement_menu_selected(Menu* m){
 }
 
 void select_menu_item(Menu* m){
-	m->options[m->selected].function(m->selected);
-}
-
-void test(int i){
-	printf("test\n");
+	m->options[m->selected].function();
 }
