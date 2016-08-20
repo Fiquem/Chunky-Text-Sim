@@ -10,11 +10,13 @@
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-Text test_text;
+//Text test_text;
 Menu test_menu;
+GameState game_state;
 
 void test(){
     printf("test\n");
+    game_state = TEST;
 }
 
 int main()
@@ -37,7 +39,7 @@ int main()
 
     // GOAL # I LOST COUNT. 18?: TEXT
     Font test_font = load_font("font/testfont.png", "font/testfont_highlight.png", "font/testfont.meta");
-    test_text = set_text(test_font, "fada test: áéíóúÁÉÍÓÚ", INIT_WIN_WIDTH, INIT_WIN_HEIGHT, 100.0, 50.0);
+    //test_text = set_text(test_font, "fada test: áéíóúÁÉÍÓÚ", INIT_WIN_WIDTH, INIT_WIN_HEIGHT, 100.0, 50.0);
 
     // I stopped doing goals and just kept going
     // goal a billion make a mnau
@@ -47,7 +49,7 @@ int main()
 
     Camera cam = init_camera();
 
-    GameState game_state = MENU;
+    game_state = MENU;
 
     // draw loop
     double prev = glfwGetTime();
@@ -66,8 +68,6 @@ int main()
 
                 // GOAL #2: make this not crash (COMPLETE)
                 // will uncomment this when I add in forward and right vecs
-                if (glfwGetKey (g_gfx.window, GLFW_KEY_ESCAPE))
-                    glfwSetWindowShouldClose (g_gfx.window, GL_TRUE);
                 if (glfwGetKey (g_gfx.window, GLFW_KEY_W))
                     if(cam.rot.v[0] < 90) cam.rot.v[0] += 50 * elapsed_time;
                 if (glfwGetKey (g_gfx.window, GLFW_KEY_S))
@@ -99,6 +99,8 @@ int main()
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        glfwSetWindowShouldClose (window, GL_TRUE);
     if (key == GLFW_KEY_UP && action == GLFW_PRESS)
         decrement_menu_selected(&test_menu);
     if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
